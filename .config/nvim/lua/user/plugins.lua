@@ -77,6 +77,16 @@ local plugins = {
   -- rest client
   "NTBBloodbath/rest.nvim",
 
+  -- Markdown preview
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+    build = "cd app && yarn install",
+  },
 }
 
 local opts = {}
