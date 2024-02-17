@@ -141,29 +141,33 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias proto='nvim ~/Documents/Maestria/ICRyProto/protocolo/estructura/'
+alias icr='nvim ~/Documents/Maestria/ICRyProto/ICR/estructura/'
+alias MA='nvim ~/Documents/Maestria/4to_trimestre/Clases/'
+
+# Programacion
+alias ub='brew upgrade `brew outdated`'
+alias c='clear'
 alias PG='/Users/$USERNAME/Documents/programacion_2.0'
 alias vic='nvim .'
 alias conf='nvim ~/.zshrc'
 alias confn='nvim ~/.config/nvim'
-alias up='/Users/$USERNAME/Documents/programacion_2.0/scripts/pip_upgrade.sh'
-alias ub='brew upgrade `brew outdated`'
-alias c='clear'
 alias sqli='litecli *.db'
-alias proto='nvim ~/Documents/Maestria/ICRyProto/protocolo/estructura/'
-alias icr='nvim ~/Documents/Maestria/ICRyProto/ICR/estructura/'
-alias MA='nvim ~/Documents/Maestria/4to_trimestre/Clases/'
-alias arquipat='tmuxinator start arquipat'
 alias password='python3 /Users/$USERNAME/Documents/programacion_2.0/python/passwords/pass.py'
 alias exif='/Users/$USERNAME/Documents/programacion_2.0/scripts/exif.sh'
-alias threejs='tmuxinator start threejs'
 alias math='zsh ~/Documents/programacion_2.0/scripts/math.sh'
 alias notas='open ~/Documents/musica/Notas\ musicales/*.png'
 alias upgrade='zsh ~/Documents/programacion_2.0/scripts/upgrade.sh'
-alias cs50='tmuxinator start CS50' 
+alias udemy='nvim ~/Documents/programacion_2.0/PSeInt/Curso\ Udemy/012_C++'
+
+# Tmuxinator
+alias arquipat='tmuxinator start arquipat'
+alias threejs='tmuxinator start threejs'
 alias tk='tmuxinator start tk' 
 alias respon='tmuxinator start Responsive'
+alias cs50='tmuxinator start CS50' 
+
+# Export PATH
 export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
-alias udemy='nvim ~/Documents/programacion_2.0/PSeInt/Curso\ Udemy/012_C++'
