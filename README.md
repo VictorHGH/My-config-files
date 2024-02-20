@@ -1,2 +1,2 @@
 # My development config files
-![hero image](./images/hero-image.svg)
+![hero image](./resources/images/hero-image.svg)
