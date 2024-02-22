@@ -47,6 +47,7 @@ local plugins = {
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig",
   "lukas-reineke/lsp-format.nvim",
+  "WhoIsSethDaniel/mason-tool-installer.nvim",
 
   -- Telescope
   "nvim-telescope/telescope.nvim",

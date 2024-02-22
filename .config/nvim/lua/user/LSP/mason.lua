@@ -1,5 +1,6 @@
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
+local mason_tool_installer = require("mason-tool-installer")
 
 mason.setup({
   ui = {
@@ -11,7 +12,7 @@ mason.setup({
   },
 })
 
-mason_lspconfig.setup({
+mason_tool_installer.setup({
   ensure_installed = {
     "tsserver",
     "emmet_ls",
@@ -28,24 +29,19 @@ mason_lspconfig.setup({
     "ast_grep",
     "clangd",
     "rust_analyzer",
-  }
+    "easy-coding-standard",
+    "ast_grep",
+    "beautysh",
+    "clang-format",
+    "djlint",
+    "latexindent",
+    "mdformat",
+    "prettier",
+    "pretty-php",
+    "standardjs",
+    "stylelint",
+  },
+  auto_update = true,
+  run_on_start = true,
+  start_delay = 2000
 })
-
--- formaters:
--- easy-coding-standard
--- ast-grep ast_grep
--- beautysh
--- clang-format
--- djlint
--- latexindent
--- mdformat
--- prettier
--- pretty-php
--- standardjs
-
--- linters:
--- easy-coding-standard
--- ast-grep ast_grep
--- djlint
--- standardjs
--- stylelint
