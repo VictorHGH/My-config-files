@@ -39,8 +39,9 @@ mason_tool_installer.setup({
     "pretty-php",
     "standardjs",
     "stylelint",
+    "json-lsp",
+    "jsonlint",
   },
   auto_update = true,
   run_on_start = true,
-  start_delay = 2000
 })
