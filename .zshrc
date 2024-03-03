@@ -160,6 +160,7 @@ alias math='zsh ~/Documents/programacion_2.0/scripts/math.sh'
 alias notas='open ~/Documents/musica/Notas\ musicales/*.png'
 alias upgrade='zsh ~/Documents/programacion_2.0/scripts/upgrade.sh'
 alias udemy='nvim ~/Documents/programacion_2.0/PSeInt/Curso\ Udemy/012_C++'
+alias astro='tmuxinator start astro'
 
 # Tmuxinator
 alias arquipat='tmuxinator start arquipat'
