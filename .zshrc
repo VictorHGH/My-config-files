@@ -172,3 +172,6 @@ alias cs50='tmuxinator start CS50'
 # Export PATH
 export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
 export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+
+# Python
+export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
