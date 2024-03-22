@@ -46,7 +46,7 @@ if vim.v.shell_error == 0 then
   local venv_path = string.gsub(pipenv_venv_path, "\n", "")
   vim.g.python3_host_prog = venv_path .. "/bin/python3"
 else
-  vim.g.python3_host_prog = "/opt/homebrew/bin/python3"
+  vim.g.python3_host_prog = "/opt/homebrew/bin/python3.11"
 end
 
 vim.g.loaded_ruby_provider = 0

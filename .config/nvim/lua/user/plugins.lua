@@ -75,9 +75,6 @@ local plugins = {
   -- Vimwiki
   "vimwiki/vimwiki",
 
-  -- rest client
-  "NTBBloodbath/rest.nvim",
-
   -- Markdown preview
   {
     "iamcco/markdown-preview.nvim",
