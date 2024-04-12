@@ -48,6 +48,7 @@ function general_options() {
   alias vic='nvim .'
   alias conf='nvim ~/.zshrc'
   alias confn='nvim ~/.config/nvim'
+  alias dot='nvim ~/dotfiles/'
 }
 
 function mac_options() {
