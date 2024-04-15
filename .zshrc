@@ -113,6 +113,7 @@ function linux_options() {
 
   # Aliases
   alias PG='cd ~/Documents/programacion_2.0/'
+  alias respon='cd ~/Documents/programacion_2.0/responsiveUdemy && tmuxinator start Responsive'
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
