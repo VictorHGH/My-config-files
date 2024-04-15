@@ -34,7 +34,6 @@ function general_options() {
   export PATH="/usr/local/sbin:$PATH"
   export PATH="/usr/local/opt/gnupg@2.2/bin:$PATH"
   export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
-  export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
 
   #gpg
   export GPG_TTY=$(tty)
@@ -55,6 +54,9 @@ function mac_options() {
   # Oh-my-zsh
   export ZSH="/Users/$USERNAME/.oh-my-zsh"
   source $ZSH/oh-my-zsh.sh
+
+  #Paths
+  export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
 
   # FMN
   eval "$(fnm env --use-on-cd)"
@@ -95,6 +97,9 @@ function linux_options() {
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+  # Paths
+  export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
+
   # FNM
   eval "$(fnm env --use-on-cd)"
 
@@ -107,7 +112,7 @@ function linux_options() {
   )
 
   # Aliases
-  alias PG='cd ~/Documents/programacion_3.0/'
+  alias PG='cd ~/Documents/programacion_2.0/'
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
