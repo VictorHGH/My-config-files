@@ -43,11 +43,11 @@ function general_options() {
   ZSH_THEME="3den"
 
   # General aliases
-  alias ub='brew upgrade `brew outdated`'
   alias c='clear'
   alias vic='nvim .'
-  alias conf='nvim ~/.zshrc'
-  alias confn='nvim ~/.config/nvim'
+  alias conf='nvim ~/dotfiles/.zshrc'
+  alias confn='nvim ~/dotfiles/.config/nvim'
+  alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
 }
 
@@ -74,14 +74,12 @@ function mac_options() {
   alias MA='nvim ~/Documents/Maestria/4to_trimestre/Clases/'
 
   # Programacion
-  alias ub='brew upgrade `brew outdated`'
   alias PG='/Users/$USERNAME/Documents/programacion_2.0'
   alias sqli='litecli *.db'
   alias password='python3 /Users/$USERNAME/Documents/programacion_2.0/python/passwords/pass.py'
   alias exif='/Users/$USERNAME/Documents/programacion_2.0/scripts/exif.sh'
   alias math='zsh ~/Documents/programacion_2.0/scripts/math.sh'
   alias notas='open ~/Documents/musica/Notas\ musicales/*.png'
-  alias upgrade='zsh ~/Documents/programacion_2.0/scripts/upgrade.sh'
   alias udemy='nvim ~/Documents/programacion_2.0/PSeInt/Curso\ Udemy/012_C++'
   alias astro='tmuxinator start astro'
 
