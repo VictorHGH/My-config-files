@@ -32,7 +32,7 @@ function general_options() {
 
   # Add Locations to $PATH Variables
   export PATH="/usr/local/sbin:$PATH"
-  export PATH="/usr/local/opt/gnupg@2.2/bin:$PATH"
+  export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
   export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
 
   #gpg
