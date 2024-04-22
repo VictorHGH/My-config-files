@@ -48,6 +48,7 @@ function general_options() {
   alias confn='nvim ~/dotfiles/.config/nvim'
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
+  alias lazy='lazygit'
 }
 
 function mac_options() {
