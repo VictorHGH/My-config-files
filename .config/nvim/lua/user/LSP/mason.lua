@@ -41,6 +41,7 @@ mason_tool_installer.setup({
     "stylelint",
     "json-lsp",
     "jsonlint",
+    "oxlint",
   },
   auto_update = true,
   run_on_start = true,
