@@ -5,6 +5,7 @@ local lspconfig = require("lspconfig")
 
 local servers = {
   tsserver = {},
+  biome = {},
   emmet_ls = {},
   html = {},
   cssls = {},
