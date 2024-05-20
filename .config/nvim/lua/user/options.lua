@@ -22,19 +22,20 @@ vim.opt.timeoutlen = 1000                       -- time to wait for a mapped seq
 vim.opt.undofile = true                         -- enable persistent undo
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
 vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-vim.opt.expandtab = true                        -- convert tabs to spaces
-vim.opt.shiftwidth = 2                          -- the number of spaces inserted for each indentation
-vim.opt.tabstop = 2                             -- insert 2 spaces for a tab
-vim.opt.cursorline = true                       -- highlight the current line
-vim.opt.number = true                           -- set numbered lines
-vim.opt.relativenumber = true                   -- set relative numbered lines
-vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
-vim.opt.signcolumn =
-"yes"                                           -- always show the sign column, otherwise it would shift the text each time
-vim.opt.wrap = true                             -- display lines as one long line
-vim.opt.scrolloff = 20                          -- is one of my fav
+vim.opt.expandtab = false                       -- convert tabs to spaces
+vim.opt.autoindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+
+vim.opt.cursorline = true         -- highlight the current line
+vim.opt.number = true             -- set numbered lines
+vim.opt.relativenumber = true     -- set relative numbered lines
+vim.opt.numberwidth = 4           -- set number column width to 2 {default 4}
+vim.opt.signcolumn = "yes"
+vim.opt.wrap = true               -- display lines as one long line
+vim.opt.scrolloff = 20            -- is one of my fav
 vim.opt.sidescrolloff = 8
-vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
+vim.opt.guifont = "monospace:h17" -- the font used in graphical neovim applications
 vim.opt.colorcolumn = "120"
 vim.opt.shortmess:append("c")
 
@@ -43,14 +44,14 @@ vim.cmd([[set iskeyword+=-]])
 
 local pipenv_venv_path = vim.fn.system("pipenv --venv")
 if vim.v.shell_error == 0 then
-  local venv_path = string.gsub(pipenv_venv_path, "\n", "")
-  vim.g.python3_host_prog = venv_path .. "/bin/python3"
+	local venv_path = string.gsub(pipenv_venv_path, "\n", "")
+	vim.g.python3_host_prog = venv_path .. "/bin/python3"
 else
-  if vim.fn.executable("/opt/homebrew/bin/python3.11") == 1 then
-    vim.g.python3_host_prog = "/opt/homebrew/bin/python3.11"
-  else
-    vim.g.python3_host_prog = "/home/linuxbrew/.linuxbrew/bin/python3.11"
-  end
+	if vim.fn.executable("/opt/homebrew/bin/python3.11") == 1 then
+		vim.g.python3_host_prog = "/opt/homebrew/bin/python3.11"
+	else
+		vim.g.python3_host_prog = "/home/linuxbrew/.linuxbrew/bin/python3.11"
+	end
 end
 
 vim.g.loaded_ruby_provider = 0
