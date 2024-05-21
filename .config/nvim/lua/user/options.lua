@@ -1,6 +1,6 @@
 -- :help options
 vim.opt.backup = false                          -- creates a backup file
-vim.opt.spelllang = "es"
+vim.opt.spelllang = "es"                        -- set the spell language to spanish
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
@@ -13,7 +13,6 @@ vim.opt.pumheight = 10                          -- pop up menu height
 vim.opt.showmode = true                         -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 2                         -- always show tabs
 vim.opt.smartcase = true                        -- smart case
-vim.opt.smartindent = true                      -- make indenting smarter again
 vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
 vim.opt.splitright = true                       -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false                        -- creates a swapfile
@@ -22,25 +21,27 @@ vim.opt.timeoutlen = 1000                       -- time to wait for a mapped seq
 vim.opt.undofile = true                         -- enable persistent undo
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
 vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-vim.opt.expandtab = false                       -- convert tabs to spaces
-vim.opt.autoindent = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
 
-vim.opt.cursorline = true         -- highlight the current line
-vim.opt.number = true             -- set numbered lines
-vim.opt.relativenumber = true     -- set relative numbered lines
-vim.opt.numberwidth = 4           -- set number column width to 2 {default 4}
-vim.opt.signcolumn = "yes"
-vim.opt.wrap = true               -- display lines as one long line
-vim.opt.scrolloff = 20            -- is one of my fav
+vim.opt.autoindent = true                       -- enable auto-indent
+vim.opt.smartindent = true                      -- make indenting smarter again
+vim.opt.tabstop = 4                             -- number of spaces that a <Tab> in the file counts for
+vim.opt.shiftwidth = 4                          -- number of spaces to use for each step of (auto)indent
+
+vim.opt.cursorline = true                       -- highlight the current line
+vim.opt.number = true                           -- set numbered lines
+vim.opt.relativenumber = true                   -- set relative numbered lines
+vim.opt.numberwidth = 4                         -- set number column width to 2 {default 4}
+vim.opt.signcolumn = "yes"                      -- always show sign column
+vim.opt.wrap = true                             -- display lines as one long line
+vim.opt.scrolloff = 20                          -- is one of my fav
 vim.opt.sidescrolloff = 8
-vim.opt.guifont = "monospace:h17" -- the font used in graphical neovim applications
+vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
 vim.opt.colorcolumn = "120"
 vim.opt.shortmess:append("c")
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
+vim.cmd([[autocmd FileType html setlocal shiftwidth=2]]) --if file type is html shiftwidth is 2
 
 local pipenv_venv_path = vim.fn.system("pipenv --venv")
 if vim.v.shell_error == 0 then
