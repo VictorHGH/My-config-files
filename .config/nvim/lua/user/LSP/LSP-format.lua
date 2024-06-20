@@ -20,7 +20,7 @@ local servers = {
 			}
 		}
 	},
-	pylsp = {},
+	ruff_lsp = {},
 	clangd = {},
 	bashls = {},
 	texlab = {},
