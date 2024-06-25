@@ -1,11 +1,14 @@
 #!/bin/bash
 
+link1="path-to-location"
+link2="path-to-location"
+
 # Function to move window to second monitor for Linux
  move_to_second_monitor_linux() {
   # Open two instances of Google Chrome with new windows and different URLs
-  flatpak run com.google.Chrome "http://localhost:5173" &
+  flatpak run com.google.Chrome $link1 &
   sleep 1
-  flatpak run com.google.Chrome --new-window "https://www.udemy.com/" &
+  flatpak run com.google.Chrome --new-window $link2 &
   sleep 1
 
   # Get the window IDs of the Chrome windows and Terminal
@@ -24,8 +27,8 @@
 
 # Function to move window to second monitor for macOS
 move_to_second_monitor_mac() {
-  open -a "Google Chrome" "https://www.udemy.com/"
-  open -a "Safari" "http://localhost:5173"
+  open -a "Safari" $link1
+  open -a "Google Chrome" $link2
   open -a "Terminal"
 
   # Get the window ID of the Chrome window
