@@ -84,7 +84,6 @@ function mac_options() {
   alias math='zsh ~/Documents/programacion_2.0/scripts/math.sh'
   alias notas='open ~/Documents/musica/Notas\ musicales/*.png'
   alias udemy='nvim ~/Documents/programacion_2.0/PSeInt/Curso\ Udemy/012_C++'
-  alias astro='tmuxinator start astro'
 
   # Tmuxinator
   alias arquipat='tmuxinator start arquipat'
@@ -92,6 +91,8 @@ function mac_options() {
   alias tk='tmuxinator start tk'
   alias respon='tmuxinator start Responsive'
   alias cs50='tmuxinator start CS50'
+  alias astro='tmuxinator start astro'
+  alias webc='tmuxinator start WebComponents'
 }
 
 function linux_options() {
