@@ -27,6 +27,7 @@ local servers = {
 	marksman = {},
 	rust_analyzer = {},
 	intelephense = {},
+	jsonls = {},
 }
 
 for server, config in pairs(servers) do

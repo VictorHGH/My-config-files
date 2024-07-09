@@ -13,7 +13,6 @@ mason.setup({
 
 mason_tool_installer.setup({
 	ensure_installed = {
-		"intelephense",
 		"astro-language-server",
 		"bash-language-server",
 		"beautysh",
@@ -24,6 +23,11 @@ mason_tool_installer.setup({
 		"djlint",
 		"emmet-ls",
 		"html-lsp",
+		"htmlbeautifier",
+		"htmlhint",
+		"intelephense",
+		"jq",
+		"json-lsp",
 		"jsonlint",
 		"latexindent",
 		"lua-language-server",
