@@ -16,6 +16,6 @@ brew upgrade `brew outdated` && brew cleanup && brew autoremove
 echo "-----------------------"
 echo "Upgrade npm"
 echo "-----------------------"
-npm -g upgrade
+npm -g update && npm -g upgrade
 # ncu -g
 # `ncu -g | grep "npm -g install .*"`
