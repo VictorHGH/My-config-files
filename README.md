@@ -8,6 +8,7 @@ It includes configuration files for:
 - `oh-my-tmux`
 - `neovim`
 - `Homebrew`
+- `oh-my-zsh`
  
 This configuration files are organized by [GNU Stow](https://www.gnu.org/software/stow/manual/).
 
