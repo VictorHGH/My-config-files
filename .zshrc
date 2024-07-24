@@ -32,11 +32,6 @@ function general_options() {
 
   # Add Locations to $PATH Variables
   export PATH="/usr/local/sbin:$PATH"
-  export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
-  export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
-
-  #gpg
-  export GPG_TTY=$(tty)
 
   # Theme
   ZSH_THEME="3den"
@@ -58,11 +53,19 @@ function mac_options() {
 
   #Paths
   export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
+  export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
+  export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+
+  #gpg
+  export GPG_TTY=$(tty)
 
   # FMN
   eval "$(fnm env --use-on-cd)"
 
-  # Plugins
+  #############################
+  ##### Oh my zsh plugins #####
+  #############################
+  
   plugins=(
     git
     zsh-autosuggestions
@@ -71,7 +74,11 @@ function mac_options() {
     pass
   )
 
-  # Aliases
+  ###################
+  ##### Aliases #####
+  ###################
+
+  # Maestria
   alias proto='nvim ~/Documents/Maestria/ICRyProto/protocolo/estructura/'
   alias icr='nvim ~/Documents/Maestria/ICRyProto/ICR/estructura/'
   alias MA='nvim ~/Documents/Maestria/4to_trimestre/Clases/'
