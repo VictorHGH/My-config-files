@@ -123,7 +123,7 @@ function linux_options() {
   )
 
   # Aliases
-  alias PG='cd ~/Documents/programacion_2.0/'
+  alias PG='cd ~/Documents/programacion/'
   alias respon='cd ~/Documents/programacion_2.0/responsiveUdemy && tmuxinator start Responsive'
   alias xs='sudo /opt/lampp/lampp start'
   alias xc='sudo /opt/lampp/lampp stop'
