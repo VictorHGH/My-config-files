@@ -14,6 +14,7 @@ echo "             ╚████╔╝ ██║╚██████╗   █
 echo "              ╚═══╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝           "
 echo ""
 echo "                       Let's build that shit.       "
+echo ""
 # Set Variables
 # Syntax highlighting for man pages using bat
 
@@ -39,8 +40,8 @@ function general_options() {
   # General aliases
   alias c='clear'
   alias vic='nvim .'
-  alias conf='nvim ~/dotfiles/.zshrc'
-  alias confn='nvim ~/dotfiles/.config/nvim'
+  alias conf='nvim ~/.zshrc'
+  alias confn='nvim ~/.config/nvim'
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
@@ -103,6 +104,7 @@ function mac_options() {
 }
 
 function linux_options() {
+  neofetch	
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
