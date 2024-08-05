@@ -22,8 +22,6 @@ function general_options() {
   export DISABLE_AUTO_TITLE="true"
   export SHELL_SESSIONS_DISABLE=1
   export LANG="en_US.UTF-8"
-  export LC_ALL="en_US.UTF-8"
-  export LC_CTYPE="en_US.UTF-8"
   export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
   # Change ZSH Options
@@ -55,6 +53,8 @@ function mac_options() {
   export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
   export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
   export PATH="/opt/homebrew/opt/sqlite/bin:$PATH"
+  export LC_ALL="en_US.UTF-8"
+  export LC_CTYPE="en_US.UTF-8"
 
   #gpg
   export GPG_TTY=$(tty)
