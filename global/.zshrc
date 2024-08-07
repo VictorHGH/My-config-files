@@ -15,22 +15,21 @@ echo "              ╚═══╝  ╚═╝ ╚═════╝   ╚═╝
 echo ""
 echo "                       Let's build that shit.       "
 echo ""
-# Set Variables
-# Syntax highlighting for man pages using bat
-
+echo ""
+echo ""
 function general_options() {
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   export DISABLE_AUTO_TITLE="true"
   export SHELL_SESSIONS_DISABLE=1
   export LANG="en_US.UTF-8"
-  # export LC_ALL="en_US.UTF-8"
+  export LC_ALL="en_US.UTF-8"
   export LC_CTYPE="en_US.UTF-8"
   export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
   # Change ZSH Options
   export EDITOR=nvim
   export VISUAL="$EDITOR"
-
+  
   # Add Locations to $PATH Variables
   export PATH="/usr/local/sbin:$PATH"
 
@@ -104,7 +103,7 @@ function mac_options() {
 }
 
 function linux_options() {
-  neofetch	
+  neofetch
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
@@ -125,8 +124,8 @@ function linux_options() {
   # Aliases
   alias PG='cd ~/Documents/programacion/'
   alias respon='cd ~/Documents/programacion_2.0/responsiveUdemy && tmuxinator start Responsive'
-  alias xs='sudo /opt/lampp/lampp start'
-  alias xc='sudo /opt/lampp/lampp stop'
+  alias xs='sudo /opt/lampp/lampp startapache startmysql'
+  alias xc='sudo /opt/lampp/lampp stopapache stopmysql'
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
