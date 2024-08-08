@@ -103,6 +103,8 @@ function mac_options() {
 }
 
 function linux_options() {
+  setxkbmap -layout us -variant altgr-intl
+  setxkbmap -option caps:escape
   neofetch
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -126,6 +128,7 @@ function linux_options() {
   alias respon='cd ~/Documents/programacion_2.0/responsiveUdemy && tmuxinator start Responsive'
   alias xs='sudo /opt/lampp/lampp startapache startmysql'
   alias xc='sudo /opt/lampp/lampp stopapache stopmysql'
+  alias copy='xclip -selection clipboard'
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
