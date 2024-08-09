@@ -34,7 +34,7 @@ memory {
 
 # Configuración de la red Ethernet
 ethernet _first_ {
-        format_up = " %ip (%speed)"
+        format_up = "  Conectado (%speed)"
         format_down = "Desconectado"
 }
 
