@@ -5,9 +5,9 @@ end
 
 local function os_icon()
 	local icons = {
-		unix = "🐧", -- e712
-		dos = "☣︎", -- e70f
-		mac = "🍏", -- e711
+		unix = " ", -- e712
+		mac = " ", -- e711
+		dos = " ", -- e70f
 	}
 	if vim.fn.has("mac") == 1 then
 		return icons.mac
