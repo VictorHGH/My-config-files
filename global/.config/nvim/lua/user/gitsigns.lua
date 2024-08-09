@@ -5,12 +5,12 @@ end
 
 gitsigns.setup {
 	signs                        = {
-		add          = { text = '┃' },
-		change       = { text = '┃' },
-		delete       = { text = '_' },
-		topdelete    = { text = '‾' },
-		changedelete = { text = '~' },
-		untracked    = { text = '┆' },
+		add          = { text = '+' },
+		change       = { text = '~' },
+		delete       = { text = 'x' },
+		topdelete    = { text = 'x' },
+		changedelete = { text = 'x' },
+		untracked    = { text = '?' },
 	},
 	signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
 	numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`

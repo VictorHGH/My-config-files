@@ -108,6 +108,22 @@ nvim_tree.setup({
 		indent_markers = {
 			enable = true,
 		},
+		icons = {
+			git_placement = "after",
+			glyphs = {
+				default = "",
+				symlink = "",
+				git = {
+					unstaged = "",
+					staged = "S",
+					unmerged = "",
+					renamed = "➜",
+					untracked = "U",
+					deleted = "D",
+					ignored = "I",
+				},
+			},
+		},
 	},
 	filters = {
 		dotfiles = false,
