@@ -126,8 +126,8 @@ function linux_options() {
   # Aliases
   alias PG='cd ~/Documents/programacion/'
   alias respon='cd ~/Documents/programacion_2.0/responsiveUdemy && tmuxinator start Responsive'
-  alias xs='sudo /opt/lampp/lampp startapache startmysql'
-  alias xc='sudo /opt/lampp/lampp stopapache stopmysql'
+  alias xs='sudo /opt/lampp/lampp startapache && sudo /opt/lampp/lampp startmysql'
+  alias xc='sudo /opt/lampp/lampp stopapache && sudo /opt/lampp/lampp stopmysql'
   alias copy='xclip -selection clipboard'
 }
 
