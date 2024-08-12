@@ -15,8 +15,6 @@ echo "              ╚═══╝  ╚═╝ ╚═════╝   ╚═╝
 echo ""
 echo "                       Let's build that shit.       "
 echo ""
-echo ""
-echo ""
 function general_options() {
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   export DISABLE_AUTO_TITLE="true"
@@ -105,6 +103,8 @@ function mac_options() {
 function linux_options() {
   setxkbmap -layout us -variant altgr-intl
   setxkbmap -option caps:escape
+  echo ""
+  echo ""
   neofetch
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
