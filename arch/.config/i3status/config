@@ -19,22 +19,22 @@ order += "ethernet _first_"
 
 # Configuración de la hora y fecha
 time {
-        format = "%Y-%m-%d %H:%M:%S"
+        format = "%Y-%m-%d %H:%M:%S "
 }
 
 # Configuración del uso de la CPU
 cpu_usage {
-        format = "CPU: %usage"
+        format = " CPU: %usage "
 }
 
 # Configuración del uso de la memoria
 memory {
-        format = "RAM: %used/%total"
+        format = " RAM: %used/%total "
 }
 
 # Configuración de la red Ethernet
 ethernet _first_ {
-        format_up = "  Conectado (%speed)"
-        format_down = "Desconectado"
+        format_up = "   Conectado (%speed)"
+        format_down = " Desconectado"
 }
 
