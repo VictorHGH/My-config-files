@@ -16,6 +16,7 @@ echo ""
 echo "                       Let's build that shit.       "
 echo ""
 function general_options() {
+
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   export DISABLE_AUTO_TITLE="true"
   export SHELL_SESSIONS_DISABLE=1
@@ -45,10 +46,6 @@ function general_options() {
 }
 
 function mac_options() {
-  # Oh-my-zsh
-  export ZSH="/Users/$USERNAME/.oh-my-zsh"
-  source $ZSH/oh-my-zsh.sh
-
   #Paths
   export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
   export PATH="/opt/homebrew/opt/gnupg@2.2/bin:$PATH"
@@ -56,6 +53,10 @@ function mac_options() {
 
   #gpg
   export GPG_TTY=$(tty)
+
+  # Oh-my-zsh
+  export ZSH="/Users/$USERNAME/.oh-my-zsh"
+  source $ZSH/oh-my-zsh.sh
 
   # FMN
   eval "$(fnm env --use-on-cd)"
@@ -101,26 +102,34 @@ function mac_options() {
 }
 
 function linux_options() {
+
   setxkbmap -layout us -variant altgr-intl
   setxkbmap -option caps:escape
+
   echo ""
-  echo ""
+
   neofetch
+
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-  # Paths
-  export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
-
-  # FNM
+  # FMN
   eval "$(fnm env --use-on-cd)"
 
-  # Oh my zsh
+  # Oh-my-zsh
   export ZSH="/home/$USERNAME/.oh-my-zsh"
   source $ZSH/oh-my-zsh.sh
 
   plugins=(
     git
+	tmuxinator
+	pipenv
+	fnm
+	laravel
+	brew
+	node
+	vi-mode
+	zsh-interactive-cd
   )
 
   # Aliases
