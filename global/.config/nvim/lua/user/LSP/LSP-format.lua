@@ -6,7 +6,9 @@ local lspconfig = require("lspconfig")
 local servers = {
 	tsserver = {},
 	biome = {},
-	emmet_ls = {},
+	emmet_ls = {
+		filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "php" }
+	},
 	html = {},
 	cssls = {},
 	tailwindcss = {},
