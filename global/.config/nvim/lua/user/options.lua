@@ -41,6 +41,7 @@ vim.opt.shortmess:append("c")
 
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
+vim.cmd([[set iskeyword+=$]])
 vim.cmd([[autocmd FileType html setlocal shiftwidth=2]]) --if file type is html shiftwidth is 2
 
 local pipenv_venv_path = vim.fn.system("pipenv --venv")
