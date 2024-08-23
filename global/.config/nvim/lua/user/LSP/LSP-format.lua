@@ -4,15 +4,14 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 local lspconfig = require("lspconfig")
 
 local servers = {
-	tsserver = {},
-	biome = {},
-	emmet_ls = {
-		filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "php" }
-	},
-	html = {},
-	cssls = {},
-	tailwindcss = {},
 	astro = {},
+	bashls = {},
+	clangd = {},
+	cssls = {},
+	emmet_ls = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "php" },
+	html = {},
+	intelephense = {},
+	jsonls = {},
 	lua_ls = {
 		settings = {
 			Lua = {
@@ -22,14 +21,13 @@ local servers = {
 			}
 		}
 	},
-	ruff_lsp = {},
-	clangd = {},
-	bashls = {},
-	texlab = {},
 	marksman = {},
+	ruff = {},
+	ruff_lsp = {},
 	rust_analyzer = {},
-	intelephense = {},
-	jsonls = {},
+	tailwindcss = {},
+	texlab = {},
+	tsserver = {},
 }
 
 for server, config in pairs(servers) do
