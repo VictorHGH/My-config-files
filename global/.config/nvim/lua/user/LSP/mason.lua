@@ -31,7 +31,6 @@ mason_tool_installer.setup({
 		"lua-language-server",
 		"marksman",
 		"mdformat",
-		"oxlint",
 		"pretty-php",
 		"ruff-lsp",
 		"rust-analyzer",
