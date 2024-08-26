@@ -36,6 +36,10 @@ function general_options() {
   # Theme
   ZSH_THEME="3den"
 
+  # NeoFetch
+  echo ""
+  neofetch
+
   # General aliases
   alias c='clear'
   alias vic='nvim .'
@@ -106,10 +110,6 @@ function linux_options() {
 
   setxkbmap -layout us -variant altgr-intl
   setxkbmap -option caps:escape
-
-  echo ""
-
-  neofetch
 
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
