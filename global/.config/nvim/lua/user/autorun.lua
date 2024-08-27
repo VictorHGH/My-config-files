@@ -12,13 +12,20 @@ local function setup_autorun_execution()
 	)
 	-- Bash
 	vim.api.nvim_command(
-		"autocmd Filetype sh nnoremap <buffer> <localleader>r :vs<CR>:term bash %<CR>:startinsert<CR>")
+		"autocmd Filetype sh nnoremap <buffer> <localleader>r :vs<CR>:term bash %<CR>:startinsert<CR>"
+	)
 	-- Rust
 	vim.api.nvim_command(
-		"autocmd Filetype rust nnoremap <buffer> <localleader>r :vs<CR>:term rustc % && ./main<CR>:startinsert<CR>")
+		"autocmd Filetype rust nnoremap <buffer> <localleader>r :vs<CR>:term rustc % && ./main<CR>:startinsert<CR>"
+	)
 	-- C++
 	vim.api.nvim_command(
-		"autocmd Filetype cpp nnoremap <buffer> <localleader>r :vs<CR>:term g++ % -o main && ./main<CR>:startinsert<CR>")
+		"autocmd Filetype cpp nnoremap <buffer> <localleader>r :vs<CR>:term g++ % -o main && ./main<CR>:startinsert<CR>"
+	)
+	-- PHP
+	vim.api.nvim_command(
+		"autocmd Filetype php nnoremap <buffer> <localleader>r :vs<CR>:term php %<CR>:startinsert<CR>"
+	)
 
 	vim.api.nvim_command("augroup END")
 end
