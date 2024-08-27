@@ -8,7 +8,18 @@ local servers = {
 	bashls = {},
 	clangd = {},
 	cssls = {},
-	emmet_ls = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "php" },
+	emmet_ls = {
+		filetypes = {
+			"html",
+			"css",
+			"scss",
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+			"php"
+		}
+	},
 	html = {},
 	intelephense = {},
 	jsonls = {},
