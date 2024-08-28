@@ -19,7 +19,6 @@ mason_tool_installer.setup({
 		"clang-format",
 		"clangd",
 		"css-lsp",
-		"easy-coding-standard",
 		"emmet-ls",
 		"html-lsp",
 		"htmlhint",
