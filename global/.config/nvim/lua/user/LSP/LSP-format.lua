@@ -20,8 +20,29 @@ local servers = {
 			"php"
 		}
 	},
-	html = {},
-	intelephense = {},
+	html = {
+		filetypes = { "html" },
+		-- setting for indentInnerHtml:
+		settings = {
+			html = {
+				format = {
+					indentInnerHtml = true
+				}
+			}
+		}
+	},
+	intelephense = {
+		-- setting for indentInnerHtml:
+		settings = {
+			intelephense = {
+				format = {
+					enable = true,
+					braces = "k&r",
+					indentInnerHtml = true
+				}
+			}
+		}
+	},
 	jsonls = {},
 	lua_ls = {
 		settings = {
