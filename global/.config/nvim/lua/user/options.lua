@@ -22,10 +22,11 @@ vim.opt.undofile = true                         -- enable persistent undo
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
 vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
-vim.opt.autoindent = true                       -- enable auto-indent
-vim.opt.smartindent = true                      -- make indenting smarter again
-vim.opt.tabstop = 4                             -- number of spaces that a <Tab> in the file counts for
+vim.opt.tabstop = 4                             -- Define el ancho de un tab
 vim.opt.shiftwidth = 4                          -- number of spaces to use for each step of (auto)indent
+vim.opt.softtabstop = 4                         -- number of spaces to use for a tab
+vim.opt.expandtab = false                       -- tabs are tabs, not spaces
+vim.opt.autoindent = true                       -- enable auto-indent
 
 vim.opt.cursorline = true                       -- highlight the current line
 vim.opt.number = true                           -- set numbered lines
@@ -42,7 +43,6 @@ vim.opt.shortmess:append("c")
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set iskeyword+=$]])
-vim.cmd([[autocmd FileType html setlocal shiftwidth=2]]) --if file type is html shiftwidth is 2
 
 local pipenv_venv_path = vim.fn.system("pipenv --venv")
 if vim.v.shell_error == 0 then
