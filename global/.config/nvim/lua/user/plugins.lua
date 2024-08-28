@@ -21,7 +21,13 @@ local plugins = {
 	"kyazdani42/nvim-web-devicons",
 	"kyazdani42/nvim-tree.lua",
 	"AndrewRadev/tagalong.vim",
-	"lukas-reineke/indent-blankline.nvim",
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		---@module "ibl"
+		---@type ibl.config
+		opts = {}
+	},
 
 	-- ColorSheme
 	"morhetz/gruvbox",
