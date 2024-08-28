@@ -22,7 +22,6 @@ mason_tool_installer.setup({
 		"easy-coding-standard",
 		"emmet-ls",
 		"html-lsp",
-		"htmlbeautifier",
 		"htmlhint",
 		"intelephense",
 		"jq",
