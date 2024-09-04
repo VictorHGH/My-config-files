@@ -32,13 +32,22 @@ local servers = {
 		}
 	},
 	intelephense = {
-		-- setting for indentInnerHtml:
 		settings = {
 			intelephense = {
 				format = {
 					enable = true,
 					braces = "k&r",
-					indentInnerHtml = true
+				},
+				codeLens = {
+					references = {
+						enable = true
+					},
+					parent = {
+						enable = true
+					},
+					implementations = {
+						enable = true
+					},
 				}
 			}
 		}
