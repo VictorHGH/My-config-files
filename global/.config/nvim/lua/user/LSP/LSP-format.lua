@@ -68,7 +68,7 @@ local servers = {
 	rust_analyzer = {},
 	tailwindcss = {},
 	texlab = {},
-	tsserver = {},
+	ts_ls = {},
 }
 
 for server, config in pairs(servers) do
