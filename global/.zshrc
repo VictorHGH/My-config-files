@@ -48,6 +48,9 @@ function general_options() {
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
+
+  # Programacion
+  alias course="tmuxinator start youtube_course"
 }
 
 function mac_options() {
