@@ -1,7 +1,6 @@
 #!/bin/bash
 
-link1="path-to-location"
-link2="path-to-location"
+source ./variables.sh
 
 # Function to move window to second monitor for Linux
 move_to_second_monitor_linux() {
