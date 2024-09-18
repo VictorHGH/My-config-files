@@ -38,6 +38,7 @@ mason_tool_installer.setup({
 		"tailwindcss-language-server",
 		"texlab",
 		"typescript-language-server",
+		"shellcheck",
 	},
 	auto_update = true,
 	run_on_start = true,
