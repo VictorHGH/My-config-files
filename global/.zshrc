@@ -48,9 +48,6 @@ function general_options() {
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
-
-  # Programacion
-  alias course="tmuxinator start youtube_course"
 }
 
 function mac_options() {
@@ -107,6 +104,7 @@ function mac_options() {
   alias cs50='tmuxinator start CS50'
   alias astro='tmuxinator start astro'
   alias webc='tmuxinator start WebComponents'
+  alias course="tmuxinator start youtube_course_mac"
 }
 
 function linux_options() {
@@ -143,6 +141,9 @@ function linux_options() {
   alias xs='sudo /opt/lampp/lampp startapache && sudo /opt/lampp/lampp startmysql'
   alias xc='sudo /opt/lampp/lampp stopapache && sudo /opt/lampp/lampp stopmysql'
   alias copy='xclip -selection clipboard'
+
+  # Tmuxinator
+  alias course="tmuxinator start youtube_course_arch"
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
