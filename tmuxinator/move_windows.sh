@@ -5,13 +5,15 @@ source ./tmuxinator/variables.sh
 # Function to move window to second monitor for Linux
 move_to_second_monitor_linux() {
 	# Abriendo chromium
-	chromium --new-window $link1
-
-	# Moviendo al segundo monitor
-	chromium --new-window $link2
+	chromium --new-window $link1 &
+	sleep 1
 
 	# Movemos el cursor al segundo monitor
 	xdotool key super+2 
+
+	# Moviendo al segundo monitor
+	chromium --new-window $link2 &
+	sleep 1
 }
 
 # Function to move window to second monitor for macOS
