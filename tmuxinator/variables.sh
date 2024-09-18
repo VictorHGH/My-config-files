@@ -14,5 +14,5 @@ else
     exit 1
 fi
 
-exoprt link1, link2
+export link1, link2
 

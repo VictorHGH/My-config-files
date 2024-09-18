@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./variables.sh
+source ./tmuxinator/variables.sh
 
 # Function to move window to second monitor for Linux
 move_to_second_monitor_linux() {

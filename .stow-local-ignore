@@ -23,6 +23,5 @@ _darcs
 
 /resources
 /.DS_Store
-/variables.sh
-/move_windows.sh
 /scripts
+/tmuxinator
