@@ -73,7 +73,8 @@ local plugins = {
 	"voldikss/vim-floaterm",
 
 	-- Github copilot
-	"github/copilot.vim",
+	--[[ "github/copilot.vim", ]]
+	"supermaven-inc/supermaven-nvim",
 
 	-- Easymotion
 	"easymotion/vim-easymotion",
