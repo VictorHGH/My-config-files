@@ -8,5 +8,6 @@ supermaven.setup({
 		accept_suggestion = "<C-l>",
 		clear_suggestion = "<C-]>",
 		accept_word = "<C-k>",
-	}
+	},
+	log_level = "off",
 })
