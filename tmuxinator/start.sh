@@ -2,9 +2,9 @@
 
 folderpath=$(pwd)
 
-tmuxinatorpath="~/dotfiles/tmuxinator"
+tmuxinatorpath="$HOME/dotfiles/tmuxinator"
 
-cp -r $tmuxinatorpath $folderpath
+cp -r "$tmuxinatorpath" "$folderpath"
 
 echo "Copied tmuxinator folder to $folderpath"
 
