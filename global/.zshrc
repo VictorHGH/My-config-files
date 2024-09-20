@@ -36,10 +36,6 @@ function general_options() {
   # Theme
   ZSH_THEME="3den"
 
-  # NeoFetch
-  echo ""
-  neofetch
-
   # General aliases
   alias c='clear'
   alias vic='nvim .'
