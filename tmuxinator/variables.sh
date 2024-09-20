@@ -13,3 +13,6 @@ else
     echo "Unsupported operating system"
     exit 1
 fi
+
+export link1
+export link2
