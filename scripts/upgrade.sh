@@ -21,12 +21,21 @@ echo "Upgrade npm"
 echo "-----------------------"
 npm -g update && npm -g upgrade
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+# Detect the operating system
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    echo "-----------------------"
+	echo "Upgrade finished"
+	echo "-----------------------"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Upgrade pacman
 	echo "-----------------------"
 	echo "Upgrade pacman"
 	echo "-----------------------"
 	sudo pacman -Syu --noconfirm
+    echo "-----------------------"
+	echo "Upgrade finished"
+	echo "-----------------------"
 else
     echo "Unsupported operating system"
     exit 1
