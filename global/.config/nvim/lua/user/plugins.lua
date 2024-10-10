@@ -85,8 +85,8 @@ local plugins = {
 	-- Vimwiki
 	"vimwiki/vimwiki",
 
-	-- Codi.vim
-	"metakirby5/codi.vim",
+	-- Rest client
+	"rest-nvim/rest.nvim",
 
 	-- Markdown preview
 	{
