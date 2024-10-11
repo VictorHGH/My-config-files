@@ -39,7 +39,7 @@ keymap("n", "j", "gj", opts)
 keymap("n", "k", "gk", opts)
 keymap("n", "gj", "j", opts)
 keymap("n", "gk", "k", opts)
-keymap("n", "<leader>wx", ":VimwikiToggleListItem<CR>", opts)
+keymap("n", "<leader>tx", ":VimwikiToggleListItem<CR>", opts)
 
 -- file browser
 keymap("n", "<leader>nt", ":NvimTreeOpen<CR>", opts)
