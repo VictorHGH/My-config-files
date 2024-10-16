@@ -2,7 +2,7 @@
 ![hero image](./resources/images/hero-image.svg)
 
 ## Description
-This repository contains a personal configuration files for development environment.
+This repository contains my personal configuration files for development environment.
 It includes configuration files for:
 - `zsh`
 - `oh-my-tmux`
