@@ -31,27 +31,7 @@ local servers = {
 			}
 		}
 	},
-	intelephense = {
-		settings = {
-			intelephense = {
-				format = {
-					enable = true,
-					braces = "k&r",
-				},
-				codeLens = {
-					references = {
-						enable = true
-					},
-					parent = {
-						enable = true
-					},
-					implementations = {
-						enable = true
-					},
-				}
-			}
-		}
-	},
+	intelephense = {},
 	jsonls = {},
 	lua_ls = {
 		settings = {
