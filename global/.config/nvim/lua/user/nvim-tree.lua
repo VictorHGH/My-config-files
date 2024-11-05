@@ -127,7 +127,7 @@ nvim_tree.setup({
 	},
 	filters = {
 		dotfiles = false,
-		git_ignored = false,
+		git_ignored = true,
 	},
 	actions = {
 		open_file = {
