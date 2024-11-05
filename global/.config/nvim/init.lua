@@ -10,7 +10,6 @@ require("user.comment")
 require("user.gitsigns")
 require("user.nvim-tree")
 require("user.lualine")
---[[ require("user.copilot") ]]
 require("user.indentline")
 require("user.LSP.mason")
 require("user.LSP.LSP-format")
