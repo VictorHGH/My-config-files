@@ -32,7 +32,6 @@ mason_tool_installer.setup({
 		"mdformat",
 		"oxlint",
 		"ruff",
-		"ruff-lsp",
 		"rust-analyzer",
 		"stylelint",
 		"tailwindcss-language-server",

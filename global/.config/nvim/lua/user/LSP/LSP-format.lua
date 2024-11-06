@@ -44,7 +44,6 @@ local servers = {
 	},
 	marksman = {},
 	ruff = {},
-	ruff_lsp = {},
 	rust_analyzer = {},
 	tailwindcss = {},
 	texlab = {},
