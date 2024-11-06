@@ -26,6 +26,10 @@ local function setup_autorun_execution()
 	vim.api.nvim_command(
 		"autocmd Filetype php nnoremap <buffer> <localleader>r :vs<CR>:term php %<CR>:startinsert<CR>"
 	)
+	-- lua
+	vim.api.nvim_command(
+		"autocmd Filetype lua nnoremap <buffer> <localleader>r :vs<CR>:term lua %<CR>:startinsert<CR>"
+	)
 
 	vim.api.nvim_command("augroup END")
 end
