@@ -5,6 +5,7 @@ function print_help() {
 	echo "Upgrade $1"
 	echo "-----------------------"
 }
+
 function upgrade() {
 	# Upgrade Oh My Zsh
 	print_help "Oh My Zsh"
