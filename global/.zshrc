@@ -107,7 +107,7 @@ function linux_options() {
 
   setxkbmap -layout us -variant altgr-intl
   setxkbmap -option caps:escape
-  xinput set-prop 10 "libinput Natural Scrolling Enabled" 1
+  xinput set-prop 8 "libinput Natural Scrolling Enabled" 1
 
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
