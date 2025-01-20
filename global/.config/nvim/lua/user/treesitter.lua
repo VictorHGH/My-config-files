@@ -23,6 +23,8 @@ configs.setup({
 		"c_sharp",
 		"vim",
 		"yaml",
+		"dockerfile",
+		"ssh_config",
 	},
 
 	sync_install = false,
