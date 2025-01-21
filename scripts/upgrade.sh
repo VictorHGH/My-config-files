@@ -31,6 +31,7 @@ function upgrade_linux() {
 	# Upgrade pacman
 	print_help "pacman"
 	sudo pacman -Syu --noconfirm
+	sudo pacman -Qqe > ~/dotfiles/resources/pacman/packages.txt
 }
 
 # Detect the operating system
