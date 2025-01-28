@@ -32,11 +32,19 @@ function upgrade_linux() {
 	print_help "pacman"
 	sudo pacman -Syu --noconfirm
 	sudo pacman -Qqe > ~/dotfiles/resources/pacman/packages.txt
+	brew bundle dump --file ~/dotfiles/resources/homebrew/Brewfile-linux --force
+	print_help "Brewfile-linux created"
+}
+
+function upgrade_mac() {
+	brew bundle dump --file ~/dotfiles/resources/homebrew/Brewfile --force
+	print_help "Brewfile created"
 }
 
 # Detect the operating system
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	upgrade	
+	upgrade_mac
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	upgrade_linux
 	upgrade
