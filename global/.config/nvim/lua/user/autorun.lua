@@ -4,7 +4,7 @@ local function setup_autorun_execution()
 
 	-- Python3
 	vim.api.nvim_command(
-		"autocmd Filetype python nnoremap <buffer> <localleader>r :vs<CR>:term python3 %<CR>:startinsert<CR>"
+		"autocmd Filetype python nnoremap <buffer> <localleader>r :vs<CR>:term pipenv run python %<CR>:startinsert<CR>"
 	)
 	-- JavaScript
 	vim.api.nvim_command(
