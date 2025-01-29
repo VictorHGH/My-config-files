@@ -29,6 +29,7 @@ linux-firmware
 nano
 net-tools
 networkmanager
+nmap
 openssh
 pavucontrol
 podman
