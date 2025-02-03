@@ -64,6 +64,7 @@ texlive-xetex
 ttf-firacode-nerd
 ttf-hack-nerd
 ttf-nerd-fonts-symbols
+ufw
 upower
 vim
 vulkan-intel
