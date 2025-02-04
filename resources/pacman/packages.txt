@@ -3,12 +3,10 @@ base-devel
 chromium
 dbeaver
 dmenu
-docker
 font-manager
 fuse-overlayfs
 fzf
 git
-gnome-terminal
 grub
 htop
 i3-wm
@@ -33,6 +31,7 @@ nmap
 openssh
 pavucontrol
 podman
+podman-compose
 pulseaudio
 pulseaudio-alsa
 sddm
