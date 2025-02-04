@@ -75,6 +75,7 @@ local plugins = {
 	-- Floaterm
 	"voldikss/vim-floaterm",
 
+	-- Github supermaven
 	"supermaven-inc/supermaven-nvim",
 
 	-- Easymotion
@@ -86,6 +87,10 @@ local plugins = {
 	-- Rest client
 	"rest-nvim/rest.nvim",
 
+	-- SQL UI for Neovim
+	'tpope/vim-dadbod',
+	'kristijanhusak/vim-dadbod-ui',
+	'kristijanhusak/vim-dadbod-completion',
 }
 
 local opts = {}
