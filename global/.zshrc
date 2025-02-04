@@ -108,6 +108,7 @@ function linux_options() {
   setxkbmap -layout us -variant altgr-intl
   setxkbmap -option caps:escape
   xinput set-prop 8 "libinput Natural Scrolling Enabled" 1
+  export PATH=$PATH:/opt/lampp/bin
 
   # Homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
