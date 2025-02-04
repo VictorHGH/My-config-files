@@ -90,7 +90,6 @@ local plugins = {
 	-- SQL UI for Neovim
 	'tpope/vim-dadbod',
 	'kristijanhusak/vim-dadbod-ui',
-	'kristijanhusak/vim-dadbod-completion',
 }
 
 local opts = {}
