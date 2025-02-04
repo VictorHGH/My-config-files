@@ -25,6 +25,7 @@ configs.setup({
 		"yaml",
 		"dockerfile",
 		"ssh_config",
+		"sql",
 	},
 
 	sync_install = false,

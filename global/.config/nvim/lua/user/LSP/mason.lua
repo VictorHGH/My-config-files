@@ -38,6 +38,8 @@ mason_tool_installer.setup({
 		"texlab",
 		"typescript-language-server",
 		"shellcheck",
+		"sqls",
+		"sqlfluff",
 	},
 	auto_update = true,
 	run_on_start = true,
