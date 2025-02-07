@@ -3,10 +3,13 @@ base-devel
 chromium
 dbeaver
 dmenu
+docker
+docker-compose
 font-manager
 fuse-overlayfs
 fzf
 git
+gnome-terminal
 grub
 htop
 i3-wm
