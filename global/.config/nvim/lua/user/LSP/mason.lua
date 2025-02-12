@@ -22,7 +22,7 @@ mason_tool_installer.setup({
 		"emmet-ls",
 		"html-lsp",
 		"htmlhint",
-		"intelephense",
+		"phpactor",
 		"jq",
 		"json-lsp",
 		"jsonlint",
