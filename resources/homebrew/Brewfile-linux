@@ -59,6 +59,7 @@ brew "neovim"
 brew "ollama", restart_service: :changed
 brew "pipenv"
 brew "pkgconf"
+brew "python@3.11"
 brew "ripgrep"
 brew "ruby"
 brew "rust"
