@@ -31,15 +31,10 @@ local servers = {
 			}
 		}
 	},
-	intelephense = {},
-	jsonls = {},
-	lua_ls = {
-		settings = {
-			Lua = {
-				diagnostics = {
-					globals = { "vim" }
-				}
-			}
+	-- phpactor con innnerHtml
+	phpactor = {
+		format = {
+			indent_inner_html = true
 		}
 	},
 	marksman = {},
