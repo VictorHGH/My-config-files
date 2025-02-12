@@ -1,5 +1,6 @@
 base
 base-devel
+brave-beta-bin
 chromium
 dbeaver
 dmenu
