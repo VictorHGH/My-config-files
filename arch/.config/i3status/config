@@ -19,7 +19,7 @@ order += "ethernet _first_"
 
 # Configuración de la hora y fecha
 time {
-        format = "%Y-%m-%d %H:%M:%S "
+        format = "%d-%m-%Y %H:%M:%S "
 }
 
 # Configuración del uso de la CPU
