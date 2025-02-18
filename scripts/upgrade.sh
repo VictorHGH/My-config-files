@@ -46,8 +46,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	upgrade	
 	upgrade_mac
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-	upgrade_linux
 	upgrade
+	upgrade_linux
 else
     echo "Unsupported operating system"
     exit 1
