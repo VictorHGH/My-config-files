@@ -1,6 +1,5 @@
 base
 base-devel
-brave-beta-bin
 chromium
 dbeaver
 dmenu
@@ -31,7 +30,6 @@ linux-firmware
 nano
 net-tools
 networkmanager
-nmap
 openssh
 pavucontrol
 podman
@@ -84,7 +82,6 @@ xf86-video-nouveau
 xf86-video-vmware
 xorg-xinit
 xorg-xinput
-yay
 yay-debug
 zathura
 zathura-pdf-poppler
