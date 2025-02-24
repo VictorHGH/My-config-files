@@ -70,10 +70,8 @@ upower
 vim
 vulkan-intel
 vulkan-radeon
-warp-terminal
 wget
 wireless_tools
-xampp
 xclip
 xdotool
 xf86-video-amdgpu
@@ -82,7 +80,6 @@ xf86-video-nouveau
 xf86-video-vmware
 xorg-xinit
 xorg-xinput
-yay-debug
 zathura
 zathura-pdf-poppler
 zram-generator
