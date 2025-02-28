@@ -79,9 +79,7 @@ function mac_options() {
   ###################
 
   # Maestria
-  alias proto='nvim ~/Documents/Maestria/ICRyProto/protocolo/estructura/'
-  alias icr='nvim ~/Documents/Maestria/ICRyProto/ICR/estructura/'
-  alias MA='nvim ~/Documents/Maestria/4to_trimestre/Clases/'
+  alias MA='nvim ~/Documents/Maestria/'
 
   # Programacion
   alias PG='/Users/$USERNAME/Documents/programacion_2.0'
