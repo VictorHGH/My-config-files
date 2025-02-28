@@ -2,7 +2,6 @@ ark
 base
 base-devel
 chromium
-dbeaver
 dmenu
 docker
 docker-compose
@@ -49,7 +48,7 @@ plasma-meta
 plasma-workspace
 podman
 podman-compose
-pulseaudio-alsa
+rsync
 smartmontools
 sof-firmware
 stow
