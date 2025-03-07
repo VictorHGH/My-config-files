@@ -34,7 +34,9 @@ lightdm
 lightdm-gtk-greeter
 linux
 linux-firmware
+linux-headers
 linux-lts
+linux-lts-headers
 nano
 net-tools
 network-manager-applet
