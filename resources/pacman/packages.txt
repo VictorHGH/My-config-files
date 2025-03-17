@@ -1,3 +1,4 @@
+arandr
 ark
 base
 base-devel
