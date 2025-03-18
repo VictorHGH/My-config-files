@@ -44,6 +44,7 @@ function general_options() {
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
+  alias start='~/dotfiles/scripts/course.zsh'
 }
 
 function mac_options() {
