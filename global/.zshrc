@@ -44,7 +44,7 @@ function general_options() {
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
-  alias run='~/dotfiles/scripts/courses.zsh'
+  alias run='~/dotfiles/scripts/projects.zsh'
   alias PG='/Users/$USERNAME/Documents/programacion'
   alias copy='xclip -selection clipboard'
 }
