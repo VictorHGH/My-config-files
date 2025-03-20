@@ -44,7 +44,9 @@ function general_options() {
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
-  alias start='~/dotfiles/scripts/course.zsh'
+  alias run='~/dotfiles/scripts/courses.zsh'
+  alias PG='/Users/$USERNAME/Documents/programacion'
+  alias copy='xclip -selection clipboard'
 }
 
 function mac_options() {
@@ -83,23 +85,7 @@ function mac_options() {
   alias MA='nvim ~/Documents/Maestria/'
 
   # Programacion
-  alias PG='/Users/$USERNAME/Documents/programacion'
-  alias sqli='litecli *.db'
   alias password='python3 /Users/$USERNAME/Documents/programacion_2.0/python/passwords/pass.py'
-  alias exif='/Users/$USERNAME/Documents/programacion_2.0/scripts/exif.sh'
-  alias math='zsh ~/Documents/programacion_2.0/scripts/math.sh'
-  alias notas='open ~/Documents/musica/Notas\ musicales/*.png'
-  alias udemy='nvim ~/Documents/programacion_2.0/PSeInt/Curso\ Udemy/012_C++'
-
-  # Tmuxinator
-  alias arquipat='tmuxinator start arquipat'
-  alias threejs='tmuxinator start threejs'
-  alias tk='tmuxinator start tk'
-  alias respon='tmuxinator start Responsive'
-  alias cs50='tmuxinator start CS50'
-  alias astro='tmuxinator start astro'
-  alias webc='tmuxinator start WebComponents'
-  alias course="tmuxinator start youtube_course_mac"
 }
 
 function linux_options() {
@@ -130,14 +116,6 @@ function linux_options() {
 	vi-mode
 	zsh-interactive-cd
   )
-
-  # Aliases
-  alias PG='cd ~/Documents/programacion/'
-  alias copy='xclip -selection clipboard'
-
-  # Tmuxinator
-  alias course="tmuxinator start youtube_course_arch"
-  alias respon='cd ~/Documents/programacion_2.0/responsiveUdemy && tmuxinator start Responsive'
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
