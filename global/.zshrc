@@ -83,7 +83,7 @@ function mac_options() {
   alias MA='nvim ~/Documents/Maestria/'
 
   # Programacion
-  alias PG='/Users/$USERNAME/Documents/programacion_2.0'
+  alias PG='/Users/$USERNAME/Documents/programacion'
   alias sqli='litecli *.db'
   alias password='python3 /Users/$USERNAME/Documents/programacion_2.0/python/passwords/pass.py'
   alias exif='/Users/$USERNAME/Documents/programacion_2.0/scripts/exif.sh'
