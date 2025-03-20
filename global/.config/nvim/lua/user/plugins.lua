@@ -101,6 +101,36 @@ local plugins = {
 	  end,
 	  ft = { "markdown" },
 	},
+	 
+	-- Folding
+	{
+	  "kevinhwang91/nvim-ufo",
+	  dependencies = { "kevinhwang91/promise-async" },
+	  config = function()
+		-- Opciones generales para folds
+		vim.o.foldcolumn = "1" -- Muestra una columna con indicadores de folds
+		vim.o.foldlevel = 99   -- Mantiene todos los folds abiertos por defecto
+		vim.o.foldlevelstart = 99
+		vim.o.foldenable = true
+
+		-- Configuración de nvim-ufo
+		require("ufo").setup({
+		  provider_selector = function(bufnr, filetype, buftype)
+			return { "lsp", "indent" } -- Usa LSP primero, luego indentación
+		  end,
+
+		})
+	  end
+		-- zR = Expande todos los folds
+		-- zM = Contrae todos los folds
+		-- zO = Abre los folds abiertos
+		-- zC = Cierra todos los folds
+		-- za = Muestra los folds abiertos
+		-- zo = Muestra los folds cerrados
+		-- zr = Muestra los folds recursivos
+		-- zm = Muestra los folds más grandes
+		-- zx = Muestra los folds recursivos más grandes
+	},
 }
 
 local opts = {}
