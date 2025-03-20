@@ -14,10 +14,37 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-# Definir el arreglo de cursos disponibles
-cursos=(
+# Cursos generales (comunes a todos los sistemas)
+cursos_generales=(
     "develoteca_poo"
 )
+
+# Función para definir cursos específicos por sistema operativo
+function inicializar_cursos() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+        cursos_especificos=(
+			"Responsive"
+			"astro"
+			"youtube_course_mac"
+			"threejs"
+			"arquipat"
+        )
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        # Linux
+        cursos_especificos=(
+        )
+    else
+        echo -e "${RED}Unknown Operating system. Exiting.${RESET}"
+        exit 1
+    fi
+
+    # Combinar cursos generales y específicos
+    cursos=("${cursos_generales[@]}" "${cursos_especificos[@]}")
+}
+
+# Inicializar los cursos disponibles
+inicializar_cursos
 
 # Función para listar los cursos
 function list_courses() {
@@ -26,7 +53,7 @@ function list_courses() {
 
     num=1
     for curso in "${cursos[@]}"; do
-        printf "${GREEN}%2d. %s${RESET}\n" "$num" "$curso"
+        printf "${YELLOW}%2d. %s${RESET}\n" "$num" "$curso"
         num=$((num + 1))
     done
 }
