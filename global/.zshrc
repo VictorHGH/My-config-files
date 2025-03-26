@@ -45,7 +45,7 @@ function general_options() {
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
   alias run='~/dotfiles/scripts/projects.zsh'
-  alias PG='/Users/$USERNAME/Documents/programacion'
+  alias PG='~/Documents/programacion'
   alias copy='xclip -selection clipboard'
 }
 
