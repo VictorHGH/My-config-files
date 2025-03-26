@@ -6,7 +6,7 @@ source ./tmuxinator/variables.sh
 move_to_second_monitor_linux() {
 
 	# Movemos el cursor al segundo monitor
-	xdotool key super+2 
+	xdotool key super+1
 
 	# Abriendo chromium
 	chromium --new-window $link1 &
