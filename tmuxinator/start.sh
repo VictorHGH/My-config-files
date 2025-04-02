@@ -2,6 +2,10 @@
 
 folderpath=$(pwd)
 
+touch ./.gitignore
+
+echo move_windows.sh >> ./.gitignore
+
 tmuxinatorpath="$HOME/dotfiles/tmuxinator"
 
 cp -r "$tmuxinatorpath" "$folderpath"
