@@ -40,6 +40,7 @@ mason_tool_installer.setup({
 		"shellcheck",
 		"sqls",
 		"sqlfluff",
+		'luacheck',
 	},
 	auto_update = true,
 	run_on_start = true,
