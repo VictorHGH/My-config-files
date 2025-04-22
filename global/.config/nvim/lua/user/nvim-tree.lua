@@ -127,6 +127,7 @@ nvim_tree.setup({
 	},
 	filters = {
 		dotfiles = false,
+		custom = {".DS_Store"},
 		git_ignored = false,
 	},
 	actions = {
