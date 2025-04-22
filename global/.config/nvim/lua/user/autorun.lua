@@ -1,38 +1,21 @@
-local function setup_autorun_execution()
-	vim.api.nvim_command("augroup exe_code")
-	vim.api.nvim_command("autocmd!")
+local commands = {
+	python = "python3 %",
+	javascript = "node %",
+	php = "php %",
+	lua = "lua %",
+	sh = "bash %",
+	rust = "rustc % && ./main",
+	cpp = "g++ % -o main && ./main",
+}
 
-	-- Python3
-	vim.api.nvim_command(
-		"autocmd Filetype python nnoremap <buffer> <localleader>r :vs<CR>:term pipenv run python %<CR>:startinsert<CR>"
-	)
-	-- JavaScript
-	vim.api.nvim_command(
-		"autocmd Filetype javascript nnoremap <buffer> <localleader>r :vs<CR>:term node %<CR>:startinsert<CR>"
-	)
-	-- Bash
-	vim.api.nvim_command(
-		"autocmd Filetype sh nnoremap <buffer> <localleader>r :vs<CR>:term bash %<CR>:startinsert<CR>"
-	)
-	-- Rust
-	vim.api.nvim_command(
-		"autocmd Filetype rust nnoremap <buffer> <localleader>r :vs<CR>:term rustc % && ./main<CR>:startinsert<CR>"
-	)
-	-- C++
-	vim.api.nvim_command(
-		"autocmd Filetype cpp nnoremap <buffer> <localleader>r :vs<CR>:term g++ % -o main && ./main<CR>:startinsert<CR>"
-	)
-	-- PHP
-	vim.api.nvim_command(
-		"autocmd Filetype php nnoremap <buffer> <localleader>r :vs<CR>:term php %<CR>:startinsert<CR>"
-	)
-	-- lua
-	vim.api.nvim_command(
-		"autocmd Filetype lua nnoremap <buffer> <localleader>r :vs<CR>:term lua %<CR>:startinsert<CR>"
-	)
-
-	vim.api.nvim_command("augroup END")
+for ft, cmd in pairs(commands) do
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = ft,
+		callback = function()
+			vim.keymap.set("n", "<localleader>r", function()
+				vim.cmd("vs | term " .. cmd)
+				vim.cmd("startinsert")
+			end, { buffer = true, desc = "Run current file in terminal" })
+		end,
+	})
 end
-
--- Call the function to set up the autocmds
-setup_autorun_execution()
