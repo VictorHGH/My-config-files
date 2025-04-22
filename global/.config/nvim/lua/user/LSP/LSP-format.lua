@@ -1,7 +1,7 @@
 -- Configuración general de LSP y diagnóstico en Neovim
 
-local lsp_format = require("lsp-format")
 local lspconfig = require("lspconfig")
+local on_attach = require("user.LSP.on_attach")
 
 -- Habilitar soporte para snippets
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -65,29 +65,29 @@ local servers = {
 	tailwindcss = {},
 	texlab = {},
 	ts_ls = {},
+	lua_ls = {
+		settings = {
+			Lua = {
+				runtime = {
+					version = "LuaJIT",
+				},
+				diagnostics = {
+					globals = { "vim" },
+				},
+				workspace = {
+					library = vim.api.nvim_get_runtime_file("", true),
+					checkThirdParty = false,
+				},
+				telemetry = {
+					enable = false,
+				}
+			}
+		}
+	},
 }
 
--- Setup de cada servidor
 for server, config in pairs(servers) do
-	config.on_attach = function(client, bufnr)
-		-- Habilita lsp-format
-		lsp_format.on_attach(client, bufnr)
-
-		-- Formateo automático al guardar
-		if client.server_capabilities.documentFormattingProvider then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.format({ async = false })
-				end,
-			})
-		end
-
-		-- keymaps por buffer se definen aquí
-	end
-
+	config.on_attach = on_attach.setup
 	config.capabilities = capabilities
 	lspconfig[server].setup(config)
 end
-
