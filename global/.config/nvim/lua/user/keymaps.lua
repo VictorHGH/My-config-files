@@ -1,96 +1,83 @@
-local opts = { noremap = true, silent = true }
+-- Mapas de teclas generales
 
+local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
 
--- Shorten function name
-local keymap = vim.api.nvim_set_keymap
-
---Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+-- Redefinir espacio como tecla <leader>
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
---LSP
-keymap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+vim.keymap.set("", "<Space>", "<Nop>", opts)
 
 -- Vimwiki
 vim.g.vimwiki_list = { { path = "~/Documents/vimwiki/", syntax = "markdown", ext = ".md" } }
 vim.g.vimwiki_conceallevel = 0
 
--- Modes
---   normal_mode = "n",
---   insert_mode = "i",
---   visual_mode = "v",
---   visual_block_mode = "x",
---   term_mode = "t",
---   command_mode = "c",
+-- Normal mode --
+-- Navegación entre ventanas
+vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
+vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
+vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
+vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
 
--- Normal --
--- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
-keymap("n", "<leader>w", ":w<CR>", opts)
-keymap("n", "<leader>q", ":q<CR>", opts)
-keymap("n", "j", "gj", opts)
-keymap("n", "k", "gk", opts)
-keymap("n", "gj", "j", opts)
-keymap("n", "gk", "k", opts)
-keymap("n", "<leader>wx", ":VimwikiToggleListItem<CR>", opts)
+-- Guardar y salir rápido
+vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Guardar archivo" })
+vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Cerrar buffer" })
 
--- file browser
-keymap("n", "<leader>nt", ":NvimTreeOpen<CR>", opts)
+-- Navegación visual mejorada (soporte para líneas largas)
+vim.keymap.set("n", "j", "gj", opts)
+vim.keymap.set("n", "k", "gk", opts)
+vim.keymap.set("n", "gj", "j", opts)
+vim.keymap.set("n", "gk", "k", opts)
 
--- Resize with arrows
-keymap("n", "<C-w>", ":resize +2<CR>", opts)
-keymap("n", "<C-s>", ":resize -2<CR>", opts)
-keymap("n", "<C-f>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-a>", ":vertical resize +2<CR>", opts)
+-- Vimwiki toggle checkbox
+vim.keymap.set("n", "<leader>wx", ":VimwikiToggleListItem<CR>", opts)
 
--- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+-- Abrir explorador de archivos
+vim.keymap.set("n", "<leader>nt", ":NvimTreeOpen<CR>", { desc = "Abrir árbol de archivos" })
 
--- Visual --
--- Stay in indent mode
-keymap("n", "<Tab>", ">>", opts)
-keymap("n", "<S-Tab>", "<<", opts)
-keymap("v", "<Tab>", ">gv", opts)
-keymap("v", "<S-Tab>", "<gv", opts)
+-- Redimensionar splits con teclas intuitivas
+vim.keymap.set("n", "<C-w>", ":resize +2<CR>", opts)
+vim.keymap.set("n", "<C-s>", ":resize -2<CR>", opts)
+vim.keymap.set("n", "<C-f>", ":vertical resize -2<CR>", opts)
+vim.keymap.set("n", "<C-a>", ":vertical resize +2<CR>", opts)
 
--- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "p", '"_dP', opts)
+-- Navegación entre buffers
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Buffer siguiente" })
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>", { desc = "Buffer anterior" })
 
--- Visual Block --
--- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+-- Visual mode --
+-- Indentación persistente
+vim.keymap.set("n", "<Tab>", ">>", opts)
+vim.keymap.set("n", "<S-Tab>", "<<", opts)
+vim.keymap.set("v", "<Tab>", ">gv", opts)
+vim.keymap.set("v", "<S-Tab>", "<gv", opts)
 
--- Terminal --
--- Better terminal navigation
-keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
-keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
-keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-keymap("n", "<leader><leader>l", ":FloatermNew --height=0.9 --width=0.9 lazygit<CR>", opts)
+-- Mover líneas seleccionadas arriba/abajo
+vim.keymap.set("v", "<A-j>", ":m .+1<CR>==", opts)
+vim.keymap.set("v", "<A-k>", ":m .-2<CR>==", opts)
+vim.keymap.set("v", "p", '"_dP', opts) -- pegar sin sobrescribir el registro
 
--- Spell
-keymap("n", "<leader><leader>o", ":set spell<CR>", term_opts)
-keymap("n", "<leader><leader>O", ":set nospell<CR>", term_opts)
+-- Visual block --
+vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", opts)
+vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", opts)
+vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
+vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
--- files --
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+-- Terminal mode --
+vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
+vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
+vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
+vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
-keymap("n", "<leader>f", "<cmd>Telescope find_files<CR>", opts)
---- keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = 1 }))<cr>", opts)
-keymap("n", "<c-t>", "<cmd>Telescope live_grep<CR>", opts)
+-- LazyGit con Floaterm
+vim.keymap.set("n", "<leader><leader>l", ":FloatermNew --height=0.9 --width=0.9 lazygit<CR>", { desc = "Abrir LazyGit" })
+
+-- Activar/desactivar spell check
+vim.keymap.set("n", "<leader><leader>o", ":set spell<CR>", { desc = "Activar spellcheck" })
+vim.keymap.set("n", "<leader><leader>O", ":set nospell<CR>", { desc = "Desactivar spellcheck" })
+
+-- Telescope --
+vim.keymap.set("n", "<leader>f", "<cmd>Telescope find_files<CR>", { desc = "Buscar archivos" })
+vim.keymap.set("n", "<C-t>", "<cmd>Telescope live_grep<CR>", { desc = "Buscar texto en archivos" })
+vim.keymap.set("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", { desc = "Diagnósticos globales" })
+vim.keymap.set("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Diagnósticos del buffer actual" })
