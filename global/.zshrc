@@ -82,7 +82,8 @@ function mac_options() {
   ###################
 
   # Maestria
-  alias MA='nvim ~/Documents/Maestria/'
+  alias MA='cd ~/Documents/Maestria/'
+  alias icr='cd ~/Documents/Maestria/Investigacion\ general/ICR/ICR/'
 
   # Programacion
   alias password='python3 /Users/$USERNAME/Documents/programacion_2.0/python/passwords/pass.py'
