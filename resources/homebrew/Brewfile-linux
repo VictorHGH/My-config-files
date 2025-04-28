@@ -57,7 +57,6 @@ brew "msgpack"
 brew "tree-sitter"
 brew "unibilium"
 brew "neovim"
-brew "ollama", restart_service: :changed
 brew "pipenv"
 brew "pkgconf"
 brew "python@3.11"
