@@ -117,6 +117,9 @@ function linux_options() {
 	vi-mode
 	zsh-interactive-cd
   )
+  
+  # Aliases
+  alias icr='cd ~/Documents/programacion/maestria/ICR/'
 }
 
 if [[ "$OSTYPE" == "darwin"* ]] then
