@@ -48,8 +48,6 @@ pipewire-jack
 pipewire-pulse
 plasma-meta
 plasma-workspace
-podman
-podman-compose
 rsync
 smartmontools
 sof-firmware
