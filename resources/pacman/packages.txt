@@ -5,6 +5,7 @@ base-devel
 chromium
 dmenu
 docker
+docker-buildx
 docker-compose
 dolphin
 efibootmgr
