@@ -47,6 +47,7 @@ function general_options() {
   alias run='~/dotfiles/scripts/projects.zsh'
   alias PG='~/Documents/programacion'
   alias copy='xclip -selection clipboard'
+  alias spark='docker exec -w /var/www/html/ titulos_php php spark'
 }
 
 function mac_options() {
