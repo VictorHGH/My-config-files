@@ -3,6 +3,7 @@ ark
 base
 base-devel
 chromium
+code
 dmenu
 docker
 docker-buildx
