@@ -87,7 +87,7 @@ function mac_options() {
   alias icr='cd ~/Documents/Maestria/Investigacion\ general/ICR/ICR/'
 
   # Programacion
-  alias password='python3 /Users/$USERNAME/Documents/programacion_2.0/python/passwords/pass.py'
+  alias password='python3 /Users/$USERNAME/Documents/programacion/python/passwords/pass.py'
 }
 
 function linux_options() {
