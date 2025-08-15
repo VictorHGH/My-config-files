@@ -33,6 +33,7 @@ konsole
 lib32-gcc-libs
 lib32-glibc
 libpulse
+librecad
 libva-intel-driver
 lightdm
 lightdm-gtk-greeter
