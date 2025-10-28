@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-LINKS=(
-  "http://about_blank/"
-  "https://google.com"
-)
+link1="http://about_blank/"
+link2="https://google.com"
 
+export link1
+export link2
