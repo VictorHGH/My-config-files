@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 LINKS=(
-  "view"
-  "tutorial/main"
+  "http://about_blank/"
+  "https://google.com"
 )
 
