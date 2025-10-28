@@ -120,6 +120,7 @@ local header=$'Enter: iniciar  |  Ctrl-D: borrar  |  Ctrl-O: abrir  |  Ctrl-R: r
 out="$(
   printf '%s\n' "${CHOICES[@]}" | \
   fzf --prompt='tmuxinator> ' \
+      --layout=reverse \
       --header="$header" \
       --with-nth=1 \
       --delimiter=$'\t' \
@@ -129,18 +130,17 @@ out="$(
         if [ "$kind" = symlink ]; then
           if [ -n "$target" ] && [ -f "$target" ]; then
             echo "SYMLINK → $target"
-            sed -n "1,200p" "$target" 2>/dev/null
+            sed -n "1,120p" "$target" 2>/dev/null
           else
             echo "SYMLINK ROTO: $path"
           fi
         elif [ -f "$path" ]; then
-          sed -n "1,200p" "$path" 2>/dev/null
+          sed -n "1,120p" "$path" 2>/dev/null
         else
           echo "(archivo no encontrado)"
         fi
       ' \
-	  --bind 'ctrl-p:toggle-preview' \
-      --preview-window=up:30%:wrap
+      --preview-window=down:30%:wrap,border
 )" || exit 0
 
 key="$(printf '%s\n' "$out" | head -n1)"
