@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source ./tmuxinator/variables.sh
+source ./tmuxinator/variables.zsh
 
 # Function to move window to second monitor for Linux
 move_to_second_monitor_linux() {
