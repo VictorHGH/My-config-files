@@ -7,31 +7,43 @@ folderpath="$PWD"
 tmuxinator_src="$HOME/dotfiles/tmuxinator"
 tmuxinator_dst="$folderpath/tmuxinator"
 
-# banderitas para saber qué hicimos
+# banderitas
 created_dir=0
 created_symlink=0
 created_vars=0
 copied_template=0
 created_global_link=0
+created_gitignore=0
 
 cleanup() {
   echo
   echo "⚠ Interrumpido. Limpiando..."
+
+  # eliminar YAML del proyecto
   if (( copied_template == 1 )); then
     rm -f "$dest_template" 2>/dev/null || true
   fi
+  # eliminar symlink local
   if (( created_symlink == 1 )); then
     rm -f "$tmuxinator_dst/move_windows.zsh" 2>/dev/null || true
   fi
+  # eliminar variables.zsh local
   if (( created_vars == 1 )); then
     rm -f "$tmuxinator_dst/variables.zsh" 2>/dev/null || true
   fi
+  # eliminar symlink global
   if (( created_global_link == 1 )); then
     rm -f "$HOME/.config/tmuxinator/${newname:-}" 2>/dev/null || true
   fi
+  # eliminar carpeta tmuxinator si la creamos
   if (( created_dir == 1 )); then
     rmdir "$tmuxinator_dst" 2>/dev/null || true
   fi
+  # eliminar .gitignore si fue creado por este script
+  if (( created_gitignore == 1 )); then
+    rm -f "$folderpath/.gitignore" 2>/dev/null || true
+  fi
+
   echo "🧹 Limpieza completa. Cancelado por el usuario."
   exit 130
 }
@@ -47,7 +59,10 @@ if [[ "$(realpath "$tmuxinator_src")" == "$(realpath "$tmuxinator_dst" 2>/dev/nu
 fi
 
 # 2) Asegurar .gitignore
-touch "$folderpath/.gitignore"
+if [[ ! -f "$folderpath/.gitignore" ]]; then
+  touch "$folderpath/.gitignore"
+  created_gitignore=1
+fi
 for rule in "tmuxinator/start.*" "tmuxinator/move_windows.zsh"; do
   grep -qxF "$rule" "$folderpath/.gitignore" || echo "$rule" >> "$folderpath/.gitignore"
 done
@@ -78,8 +93,6 @@ if [[ -f "$tmuxinator_src/move_windows.zsh" ]]; then
   ln -sfn "$tmuxinator_src/move_windows.zsh" "$tmuxinator_dst/move_windows.zsh"
   created_symlink=1
   print -r -- "✓ Symlink: move_windows.zsh → $tmuxinator_src/move_windows.zsh"
-else
-  print -r -- "⚠ No encontré move_windows.zsh en dotfiles; omito symlink."
 fi
 
 # 6) variables.zsh
@@ -96,8 +109,6 @@ if [[ -f "$tmuxinator_src/variables.zsh" ]]; then
     cp -f "$tmuxinator_src/variables.zsh" "$dest_vars"
     created_vars=1
   fi
-else
-  print -r -- "⚠ No se encontró variables.zsh."
 fi
 
 # 7) Copiar y personalizar template.yml
@@ -127,8 +138,6 @@ if [[ -f "$src_template" ]]; then
   mv "$tmpfile" "$dest_template"
   print -r -- "✓ Actualizado name: ${internal_name}"
   print -r -- "✓ Actualizado root: ${folderpath}"
-else
-  print -r -- "⚠ No encontré $src_template."
 fi
 
 # 8) Crear symlink del YAML global
@@ -139,7 +148,7 @@ if [[ -n "${dest_template:-}" && -f "$dest_template" ]]; then
   print -r -- "✓ Symlink creado: ~/.config/tmuxinator/${newname}"
 fi
 
-# desactivar cleanup si todo fue bien
+# Desactivar cleanup si todo fue bien
 trap - INT
 
 print ""
