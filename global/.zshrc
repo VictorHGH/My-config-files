@@ -48,6 +48,7 @@ function general_options() {
   alias PG='~/Documents/programacion'
   alias copy='xclip -selection clipboard'
   alias spark='docker exec -w /var/www/html/ titulos_php php spark'
+  alias starto='$HOME/dotfiles/tmuxinator/start.zsh'
 }
 
 function mac_options() {
