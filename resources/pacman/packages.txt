@@ -29,6 +29,7 @@ intel-media-driver
 intel-ucode
 iwd
 kate
+keepassxc
 konsole
 lib32-gcc-libs
 lib32-glibc
