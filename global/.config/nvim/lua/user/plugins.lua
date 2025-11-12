@@ -18,8 +18,8 @@ local plugins = {
 	"nvim-lua/plenary.nvim", -- Useful lua functions used ny lots of plugins
 	"windwp/nvim-autopairs", -- Autopairs integrates with both cmp and treesitter
 	"numToStr/Comment.nvim", -- Easily comment stuff
-	"kyazdani42/nvim-web-devicons",
-	"kyazdani42/nvim-tree.lua",
+	"nvim-tree/nvim-web-devicons",
+	"nvim-tree/nvim-tree.lua",
 	"AndrewRadev/tagalong.vim",
 	{
 		"lukas-reineke/indent-blankline.nvim",
@@ -30,7 +30,7 @@ local plugins = {
 	},
 
 	-- ColorSheme
-	"morhetz/gruvbox",
+	"ellisonleao/gruvbox.nvim",
 
 	-- Vimtex
 	"lervag/vimtex",
@@ -62,7 +62,7 @@ local plugins = {
 	"nvim-telescope/telescope.nvim",
 
 	-- Tresitter
-	"nvim-treesitter/nvim-treesitter",
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	"JoosepAlviste/nvim-ts-context-commentstring",
 	"wuelnerdotexe/vim-astro",
 
@@ -93,34 +93,34 @@ local plugins = {
 
 	-- Markdown preview
 	{
-	  "iamcco/markdown-preview.nvim",
-	  cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	  build = "cd app && yarn install",
-	  init = function()
-		vim.g.mkdp_filetypes = { "markdown" }
-	  end,
-	  ft = { "markdown" },
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && yarn install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
 	},
-	 
+
 	-- Folding
 	{
-	  "kevinhwang91/nvim-ufo",
-	  dependencies = { "kevinhwang91/promise-async" },
-	  config = function()
-		-- Opciones generales para folds
-		vim.o.foldcolumn = "1" -- Muestra una columna con indicadores de folds
-		vim.o.foldlevel = 99   -- Mantiene todos los folds abiertos por defecto
-		vim.o.foldlevelstart = 99
-		vim.o.foldenable = true
+		"kevinhwang91/nvim-ufo",
+		dependencies = { "kevinhwang91/promise-async" },
+		config = function()
+			-- Opciones generales para folds
+			vim.o.foldcolumn = "1" -- Muestra una columna con indicadores de folds
+			vim.o.foldlevel = 99 -- Mantiene todos los folds abiertos por defecto
+			vim.o.foldlevelstart = 99
+			vim.o.foldenable = true
 
-		-- Configuración de nvim-ufo
-		require("ufo").setup({
-		  provider_selector = function(bufnr, filetype, buftype)
-			return { "lsp", "indent" } -- Usa LSP primero, luego indentación
-		  end,
+			-- Configuración de nvim-ufo
+			require("ufo").setup({
+				provider_selector = function(bufnr, filetype, buftype)
+					return { "lsp", "indent" } -- Usa LSP primero, luego indentación
+				end,
 
-		})
-	  end
+			})
+		end
 		-- zR = Expande todos los folds
 		-- zM = Contrae todos los folds
 		-- zO = Abre los folds abiertos
