@@ -81,9 +81,6 @@ local plugins = {
 	-- Easymotion
 	"easymotion/vim-easymotion",
 
-	-- Vimwiki
-	"vimwiki/vimwiki",
-
 	-- Rest client
 	"rest-nvim/rest.nvim",
 
