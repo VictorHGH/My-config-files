@@ -8,10 +8,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set("", "<Space>", "<Nop>", opts)
 
--- Vimwiki
-vim.g.vimwiki_list = { { path = "~/Documents/vimwiki/", syntax = "markdown", ext = ".md" } }
-vim.g.vimwiki_conceallevel = 0
-
 -- Normal mode --
 -- Navegación entre ventanas
 vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
@@ -28,9 +24,6 @@ vim.keymap.set("n", "j", "gj", opts)
 vim.keymap.set("n", "k", "gk", opts)
 vim.keymap.set("n", "gj", "j", opts)
 vim.keymap.set("n", "gk", "k", opts)
-
--- Vimwiki toggle checkbox
-vim.keymap.set("n", "<leader>wx", ":VimwikiToggleListItem<CR>", opts)
 
 -- Abrir explorador de archivos
 vim.keymap.set("n", "<leader>nt", ":NvimTreeOpen<CR>", { desc = "Abrir árbol de archivos" })
