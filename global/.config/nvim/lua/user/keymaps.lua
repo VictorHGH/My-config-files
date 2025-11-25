@@ -71,6 +71,7 @@ vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- LazyGit con Floaterm
 vim.keymap.set("n", "<leader><leader>l", ":FloatermNew --height=0.9 --width=0.9 lazygit<CR>", { desc = "Abrir LazyGit" })
+vim.keymap.set("n", "<leader>T", ":FloatermNew --height=0.9 --width=0.9<CR>", { desc = "New terminal" })
 
 -- Activar/desactivar spell check
 vim.keymap.set("n", "<leader><leader>o", ":set spell<CR>", { desc = "Activar spellcheck" })
