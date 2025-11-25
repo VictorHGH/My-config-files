@@ -1,4 +1,5 @@
 local configs = require("nvim-treesitter.configs")
+
 configs.setup({
 	ensure_installed = {
 		"bash",
@@ -28,19 +29,22 @@ configs.setup({
 		"sql",
 	},
 
+	modules = {}, -- Nuevo campo (normalmente vacío)
+	auto_install = false,
+
 	sync_install = false,
-	ignore_install = { "" }, -- List of parsers to ignore installing
+	ignore_install = { "" },
+
 	highlight = {
-		enable = true,    -- false will disable the whole extension
-		disable = { "" }, -- list of language that will be disabled
+		enable = true,
+		disable = { "" },
 		additional_vim_regex_highlighting = true,
 	},
-	indent = { enable = true, disable = {} },
+
+	indent = { enable = true },
 	ts_context_commentstring = {
 		enable = true,
 		enable_autocmd = false,
 	},
-	autopairs = {
-		enable = true,
-	},
+	autopairs = { enable = true },
 })
