@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local servers = {
 	-- sin overrides: no requieren archivo en lsp/
 	"astro", "bashls", "clangd", "cssls", "marksman", "ruff",
-	"rust_analyzer", "tailwindcss", "texlab", "ts_ls",
+	"rust_analyzer", "tailwindcss", "texlab", "ts_ls", "vetur_vls",
 
 	-- con overrides: necesitas sus archivos en lsp/
 	"emmet_ls", "html", "lua_ls", "phpactor",
