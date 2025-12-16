@@ -27,6 +27,7 @@ configs.setup({
 		"dockerfile",
 		"ssh_config",
 		"sql",
+		"blade",
 	},
 
 	modules = {}, -- Nuevo campo (normalmente vacío)
