@@ -136,3 +136,6 @@ else
   echo "Unknown Operating system. Exiting."
   exit 1
 fi
+
+# opencode
+export PATH=/home/$USER/.opencode/bin:$PATH
