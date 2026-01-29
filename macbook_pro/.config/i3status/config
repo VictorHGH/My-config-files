@@ -1,39 +1,43 @@
-# Configuración básica de i3status
-
 general {
-        colors= true
+        colors = true
         interval = 1
+        separator = " "
 }
 
-# Mostrar la hora y fecha
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "battery 0"
+order += "cpu_usage"
+order += "memory"
 order += "time"
 
-# Mostrar el uso de la CPU
-order += "cpu_usage"
-
-# Mostrar el uso de la memoria
-order += "memory"
-
-# Mostrar el uso de la red
-order += "ethernet _first_"
-
-# Configuración de la hora y fecha
 time {
-        format = "%d-%m-%Y %H:%M:%S "
+        format = "%d-%m-%Y %H:%M:%S"
 }
 
-# Configuración del uso de la CPU
 cpu_usage {
-        format = " CPU: %usage "
+        format = "CPU: %usage"
 }
 
-# Configuración del uso de la memoria
 memory {
-        format = " RAM: %used/%total "
+        format = "RAM: %used/%total"
 }
 
-# Configuración de la red Ethernet
+wireless _first_ {
+        format_up = "  %essid (%quality) %ip"
+        format_down = ""
+}
+
 ethernet _first_ {
-        format_up = "   Conectado (%speed) %ip"
-        format_down = " Desconectado"
+        format_up = "  (%speed) %ip"
+        format_down = ""
+}
+
+battery 0 {
+        # %status cambia según esté cargando / descargando / full
+        format = "%status %percentage %remaining"
+        format_down = ""
+        status_chr = "⚡"
+        status_bat = "🔋"
+        status_full = ""
 }

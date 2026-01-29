@@ -194,3 +194,20 @@ bar {
 	  position top
 
 }
+
+bindsym XF86KbdBrightnessUp   exec --no-startup-id brightnessctl -d smc::kbd_backlight set +15
+
+bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl -d smc::kbd_backlight set 15-
+
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl -d intel_backlight set +10%
+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -d intel_backlight set 10%-
+
+# Media keys (MPRIS)
+bindsym XF86AudioPlay  exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPause exec --no-startup-id playerctl pause
+bindsym XF86AudioNext  exec --no-startup-id playerctl next
+bindsym XF86AudioPrev  exec --no-startup-id playerctl previous
+bindsym XF86AudioStop  exec --no-startup-id playerctl stop
+
+exec --no-startup-id setxkbmap -option ctrl:swap_lwin_lctl -option ctrl:swap_rwin_rctl
