@@ -97,19 +97,35 @@ function ensure_dotfiles_dir() {
   fi
 }
 
+# ----------------------------
+# Dotfiles: safe git pull
+# ----------------------------
 function git_pull_dotfiles() {
   if [[ "$NO_GIT_PULL" -eq 1 ]]; then
     print_help "git pull (skipped)"
     return
   fi
 
-  if is_git_repo; then
-    print_help "git pull (dotfiles)"
-    run "cd '$DOTFILES_DIR' && git pull --rebase"
-  else
-    print_help "git pull (dotfiles)"
+  print_help "git pull (dotfiles)"
+
+  if ! is_git_repo; then
     echo "Not a git repo: $DOTFILES_DIR (skipping)"
+    return
   fi
+
+  # Auto-stash if there are local changes (tracked, staged, or untracked)
+  run "cd '$DOTFILES_DIR' && \
+    had_changes=0; \
+    if ! git diff --quiet || ! git diff --cached --quiet || [[ -n \"\$(git status --porcelain)\" ]]; then \
+      had_changes=1; \
+      echo 'Local changes detected: stashing before pull...'; \
+      git stash push -u -m 'auto-stash by sync script'; \
+    fi; \
+    git pull --rebase; \
+    if [[ \$had_changes -eq 1 ]]; then \
+      echo 'Restoring stashed changes...'; \
+      git stash pop || true; \
+    fi"
 }
 
 # ----------------------------
@@ -127,7 +143,6 @@ function upgrade_oh_my_zsh() {
 function upgrade_brew() {
   print_help "Homebrew"
   if have brew; then
-    # Avoid `brew upgrade \`brew outdated\`` (fragile). Just `brew update && brew upgrade`.
     run "brew update"
     run "brew upgrade"
     run "brew cleanup"
@@ -140,7 +155,6 @@ function upgrade_brew() {
 function upgrade_npm_global() {
   print_help "npm (global)"
   if have npm; then
-    # Keep it simple; "sync" global npm packages across machines is usually not worth it.
     run "npm -g update || true"
   else
     echo "npm not found (skipping)"
@@ -148,12 +162,29 @@ function upgrade_npm_global() {
 }
 
 function upgrade_nvim() {
-  print_help "Neovim"
-  if have nvim; then
-    # Runs user command if you have it defined; otherwise won't crash your shell.
+  print_help "Neovim (Lazy.nvim)"
+
+  if ! have nvim; then
+    echo "nvim not found (skipping)"
+    return
+  fi
+
+  # Strategy:
+  # 1) If you have a custom :UpgradeNvim command, use it.
+  # 2) Otherwise, run Lazy sync.
+  #
+  # We detect whether :UpgradeNvim exists by asking Neovim to echo exists(':UpgradeNvim').
+  local has_custom
+  has_custom="$(
+    nvim --headless +'silent! lua vim.api.nvim_echo({{tostring(vim.fn.exists(":UpgradeNvim"))}}, false, {})' +qa 2>/dev/null \
+    | tail -n 1 || true
+  )"
+
+  if [[ "$has_custom" == "2" || "$has_custom" == "1" ]]; then
+    # exists() returns 2 for user-defined commands, 1 for builtin; either way, command exists.
     run "nvim --headless '+silent! UpgradeNvim' '+qa' || true"
   else
-    echo "nvim not found (skipping)"
+    run "nvim --headless '+silent! Lazy! sync' '+qa' || true"
   fi
 }
 
@@ -167,8 +198,6 @@ function pacman_sync_install_missing() {
     return
   fi
 
-  # Filter comments/empty lines
-  # pacman reads from stdin with '-'
   run "grep -vE '^\s*#|^\s*$' '$PACMAN_LIST' | sudo pacman -S --needed -"
 }
 
@@ -183,23 +212,17 @@ function pacman_strict_remove_extras() {
     return
   fi
 
-  # Build allowlist (desired) and current list
   local desired_tmp current_tmp extras_tmp protect_tmp
   desired_tmp="$(mktemp)"
   current_tmp="$(mktemp)"
   extras_tmp="$(mktemp)"
   protect_tmp="$(mktemp)"
 
-  # desired
   grep -vE '^\s*#|^\s*$' "$PACMAN_LIST" | sort -u > "$desired_tmp"
-  # current explicitly installed packages
   pacman -Qqe | sort -u > "$current_tmp"
 
-  # extras = current - desired
   comm -23 "$current_tmp" "$desired_tmp" > "$extras_tmp"
 
-  # Apply protection filters
-  # Remove protected packages from extras list
   printf "%s\n" "${PACMAN_STRICT_PROTECT_REGEX[@]}" > "$protect_tmp"
   while read -r re; do
     [[ -z "$re" ]] && continue
@@ -271,11 +294,9 @@ function export_linux_state() {
   fi
 
   print_help "Export Linux package state"
-  # Export explicit packages
   run "mkdir -p '$DOTFILES_DIR/resources/pacman'"
   run "sudo pacman -Qqe > '$PACMAN_LIST'"
 
-  # Export brew bundle (linux)
   if have brew; then
     run "mkdir -p '$DOTFILES_DIR/resources/homebrew'"
     run "brew bundle dump --file '$BREWFILE_LINUX' --force"
@@ -313,35 +334,19 @@ function common_flow() {
 }
 
 function linux_flow() {
-  # 1) pull dotfiles state
   git_pull_dotfiles
-
-  # 2) sync local machine to dotfiles (install missing, optionally remove extras)
   pacman_sync_install_missing
   pacman_strict_remove_extras
-
-  # 3) upgrade system
   pacman_upgrade
-
-  # 4) brew bundle sync + upgrade (if you use brew on linux)
   brew_bundle_sync_linux
   upgrade_brew
-
-  # 5) export state (so other machine can apply it)
   export_linux_state
 }
 
 function mac_flow() {
-  # 1) pull dotfiles state
   git_pull_dotfiles
-
-  # 2) sync local machine to dotfiles
   brew_bundle_sync_mac
-
-  # 3) upgrade brew + common tools
   upgrade_brew
-
-  # 4) export state
   export_mac_state
 }
 
@@ -350,10 +355,9 @@ function mac_flow() {
 # ----------------------------
 ensure_dotfiles_dir
 
-# Common upgrades (cross-platform)
+# Cross-platform upgrades first (including Neovim plugins)
 common_flow
 
-# OS-specific steps
 if [[ "$OSTYPE" == "darwin"* ]]; then
   mac_flow
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
