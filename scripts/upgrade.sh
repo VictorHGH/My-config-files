@@ -116,7 +116,7 @@ function git_pull_dotfiles() {
   # Auto-stash if there are local changes (tracked, staged, or untracked)
   run "cd '$DOTFILES_DIR' && \
     had_changes=0; \
-    if ! git diff --quiet || ! git diff --cached --quiet || [[ -n \"\$(git status --porcelain)\" ]]; then \
+    if [[ -n \"\$(git status --porcelain)\" ]]; then \
       had_changes=1; \
       echo 'Local changes detected: stashing before pull...'; \
       git stash push -u -m 'auto-stash by sync script'; \
@@ -169,19 +169,16 @@ function upgrade_nvim() {
     return
   fi
 
-  # Strategy:
-  # 1) If you have a custom :UpgradeNvim command, use it.
-  # 2) Otherwise, run Lazy sync.
-  #
-  # We detect whether :UpgradeNvim exists by asking Neovim to echo exists(':UpgradeNvim').
+  # If you have a custom :UpgradeNvim command, use it; otherwise run Lazy sync.
+  # exists(':Cmd') returns 2 for user-defined commands, 1 for built-in, 0 if missing.
   local has_custom
   has_custom="$(
-    nvim --headless +'silent! lua vim.api.nvim_echo({{tostring(vim.fn.exists(":UpgradeNvim"))}}, false, {})' +qa 2>/dev/null \
-    | tail -n 1 || true
+    nvim --headless \
+      +"silent! lua print(vim.fn.exists(':UpgradeNvim'))" \
+      +qa 2>/dev/null | tail -n 1 || true
   )"
 
   if [[ "$has_custom" == "2" || "$has_custom" == "1" ]]; then
-    # exists() returns 2 for user-defined commands, 1 for builtin; either way, command exists.
     run "nvim --headless '+silent! UpgradeNvim' '+qa' || true"
   else
     run "nvim --headless '+silent! Lazy! sync' '+qa' || true"
@@ -198,7 +195,38 @@ function pacman_sync_install_missing() {
     return
   fi
 
-  run "grep -vE '^\s*#|^\s*$' '$PACMAN_LIST' | sudo pacman -S --needed -"
+  local desired_tmp found_tmp missing_tmp
+  desired_tmp="$(mktemp)"
+  found_tmp="$(mktemp)"
+  missing_tmp="$(mktemp)"
+
+  # desired list
+  grep -vE '^\s*#|^\s*$' "$PACMAN_LIST" | sort -u > "$desired_tmp"
+
+  # split into found vs missing (in enabled repos)
+  while read -r pkg; do
+    [[ -z "$pkg" ]] && continue
+    if pacman -Si "$pkg" >/dev/null 2>&1; then
+      echo "$pkg" >> "$found_tmp"
+    else
+      echo "$pkg" >> "$missing_tmp"
+    fi
+  done < "$desired_tmp"
+
+  if [[ -s "$missing_tmp" ]]; then
+    echo
+    echo "WARNING: These packages were not found in enabled repos (skipping them):"
+    cat "$missing_tmp"
+    echo
+  fi
+
+  if [[ -s "$found_tmp" ]]; then
+    run "sudo pacman -S --needed - < '$found_tmp'"
+  else
+    echo "No installable packages found (after filtering)."
+  fi
+
+  rm -f "$desired_tmp" "$found_tmp" "$missing_tmp"
 }
 
 function pacman_strict_remove_extras() {
