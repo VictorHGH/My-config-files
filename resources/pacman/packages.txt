@@ -59,6 +59,7 @@ linux-headers
 linux-lts
 linux-lts-headers
 linux-zen-headers
+mbpfan
 nano
 net-tools
 network-manager-applet
@@ -133,6 +134,8 @@ xorg-xinit
 xorg-xinput
 xss-lock
 xterm
+yay
+yay-debug
 zathura
 zathura-pdf-poppler
 zram-generator
