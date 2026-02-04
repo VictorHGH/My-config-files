@@ -2,6 +2,7 @@ arandr
 ark
 base
 base-devel
+bind
 bluez-utils
 brightnessctl
 broadcom-wl-dkms
