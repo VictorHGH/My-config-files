@@ -44,6 +44,7 @@ iw
 iwd
 kate
 keepassxc
+keyd
 kitty
 konsole
 lib32-gcc-libs
@@ -63,6 +64,7 @@ linux-lts-headers
 linux-zen-headers
 mbpfan
 nano
+neovim
 net-tools
 network-manager-applet
 networkmanager
