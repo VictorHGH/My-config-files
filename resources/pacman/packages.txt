@@ -86,6 +86,7 @@ smartmontools
 sof-firmware
 stow
 system-config-printer
+tcpdump
 texlive-basic
 texlive-bibtexextra
 texlive-binextra
@@ -120,6 +121,7 @@ vulkan-nouveau
 vulkan-radeon
 warp-terminal
 wget
+wireguard-tools
 wireless_tools
 wireplumber
 wofi
