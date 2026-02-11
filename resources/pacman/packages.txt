@@ -3,6 +3,7 @@ ark
 base
 base-devel
 bind
+bluez
 bluez-utils
 brightnessctl
 broadcom-wl-dkms
@@ -49,7 +50,6 @@ kitty
 konsole
 lib32-gcc-libs
 lib32-glibc
-libpulse
 librecad
 libreoffice-fresh
 libva-intel-driver
@@ -63,6 +63,7 @@ linux-headers
 linux-lts
 linux-lts-headers
 linux-zen-headers
+mbpfan
 nano
 neovim
 net-tools
@@ -71,7 +72,6 @@ networkmanager
 nmap
 pandoc-cli
 pavucontrol
-pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
@@ -80,6 +80,8 @@ plasma-workspace
 playerctl
 power-profiles-daemon
 python-requests
+qt5-wayland
+qt6-wayland
 reflector
 rsync
 seahorse
@@ -87,6 +89,7 @@ slurp
 smartmontools
 sof-firmware
 stow
+sudo
 syncthing
 system-config-printer
 tailscale
@@ -127,20 +130,22 @@ warp-terminal
 wget
 wireguard-tools
 wireless_tools
-wireplumber
 wofi
+wpa_supplicant
 xclip
 xdg-desktop-portal-hyprland
+xdg-utils
 xdotool
 xf86-video-amdgpu
 xf86-video-ati
 xf86-video-nouveau
-xf86-video-vmware
 xorg-xev
 xorg-xinit
 xorg-xinput
 xss-lock
 xterm
+yay
+yay-debug
 zathura
 zathura-pdf-poppler
 zram-generator
