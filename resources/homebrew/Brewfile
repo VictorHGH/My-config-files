@@ -119,6 +119,7 @@ brew "ruby"
 brew "stow"
 brew "stylua"
 brew "suite-sparse"
+brew "syncthing", restart_service: :changed
 brew "tcl-tk"
 brew "tmux"
 brew "tmuxinator-completion"
