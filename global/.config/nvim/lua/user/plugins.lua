@@ -62,7 +62,7 @@ local plugins = {
 	"nvim-telescope/telescope.nvim",
 
 	-- Tresitter
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter", branch = "main", build = ":TSUpdate"},
 	"JoosepAlviste/nvim-ts-context-commentstring",
 	"wuelnerdotexe/vim-astro",
 
