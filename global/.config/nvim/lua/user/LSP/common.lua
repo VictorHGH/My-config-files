@@ -17,7 +17,7 @@ function M.setup_diagnostics()
 		float = {
 			focusable = false,
 			border = "rounded",
-			source = "always",
+			source = true,
 			header = "",
 			prefix = "",
 		},
