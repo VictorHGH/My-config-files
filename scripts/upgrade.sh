@@ -86,6 +86,36 @@ function run() {
 
 function have() { command -v "$1" >/dev/null 2>&1; }
 
+function normalize_brewfile_in_place() {
+  local file="$1"
+  local raw_tmp tap_tmp brew_tmp cask_tmp mas_tmp vscode_tmp whalebrew_tmp rest_tmp out_tmp
+
+  raw_tmp="$(mktemp)"
+  tap_tmp="$(mktemp)"
+  brew_tmp="$(mktemp)"
+  cask_tmp="$(mktemp)"
+  mas_tmp="$(mktemp)"
+  vscode_tmp="$(mktemp)"
+  whalebrew_tmp="$(mktemp)"
+  rest_tmp="$(mktemp)"
+  out_tmp="$(mktemp)"
+
+  grep -vE '^\s*#|^\s*$' "$file" > "$raw_tmp"
+
+  grep -E '^tap[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$tap_tmp" || true
+  grep -E '^brew[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$brew_tmp" || true
+  grep -E '^cask[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$cask_tmp" || true
+  grep -E '^mas[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$mas_tmp" || true
+  grep -E '^vscode[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$vscode_tmp" || true
+  grep -E '^whalebrew[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$whalebrew_tmp" || true
+  grep -vE '^(tap|brew|cask|mas|vscode|whalebrew)[[:space:]]' "$raw_tmp" | LC_ALL=C sort -u > "$rest_tmp" || true
+
+  cat "$tap_tmp" "$brew_tmp" "$cask_tmp" "$mas_tmp" "$vscode_tmp" "$whalebrew_tmp" "$rest_tmp" > "$out_tmp"
+  mv "$out_tmp" "$file"
+
+  rm -f "$raw_tmp" "$tap_tmp" "$brew_tmp" "$cask_tmp" "$mas_tmp" "$vscode_tmp" "$whalebrew_tmp" "$rest_tmp"
+}
+
 function is_git_repo() {
   [[ -d "$DOTFILES_DIR/.git" ]]
 }
@@ -323,11 +353,19 @@ function export_linux_state() {
 
   print_help "Export Linux package state"
   run "mkdir -p '$DOTFILES_DIR/resources/pacman'"
-  run "sudo pacman -Qqe > '$PACMAN_LIST'"
+  run "sudo pacman -Qqe | LC_ALL=C sort -u > '$PACMAN_LIST'"
 
   if have brew; then
     run "mkdir -p '$DOTFILES_DIR/resources/homebrew'"
-    run "brew bundle dump --file '$BREWFILE_LINUX' --force"
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo "+ brew bundle dump --file '<tmp>' --force && normalize_brewfile_in_place '<tmp>' && mv '<tmp>' '$BREWFILE_LINUX'"
+    else
+      local brew_tmp
+      brew_tmp="$(mktemp)"
+      brew bundle dump --file "$brew_tmp" --force
+      normalize_brewfile_in_place "$brew_tmp"
+      mv "$brew_tmp" "$BREWFILE_LINUX"
+    fi
     echo "Brewfile-linux created/updated"
   else
     echo "brew not found (skipping Brewfile-linux export)"
@@ -394,4 +432,3 @@ else
   echo "Unsupported operating system: $OSTYPE"
   exit 1
 fi
-
