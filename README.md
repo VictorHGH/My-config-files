@@ -1,39 +1,58 @@
 # Dotfiles
 
-Personal development environment configuration managed with GNU Stow.
+Configuracion personal de entorno de desarrollo gestionada con GNU Stow.
 
-## What's included
-- Zsh + oh-my-zsh, aliases, and plugins
-- tmux/oh-my-tmux and tmuxinator templates
-- Neovim/Lua tooling and linters
-- Homebrew and pacman package manifests
-- Helper scripts for setup and maintenance
+## Contenido del repositorio
 
-## Prerequisites
-- `stow`, `zsh`, `tmux`, `tmuxinator`
-- macOS or Linux with package manager (Homebrew/pacman)
-- `git` and common build tools if you install dev packages
+- `global/`: configuraciones compartidas (zsh, git, tmux local, neovim).
+- `arch/`: configuraciones especificas para Arch Linux (i3, i3status, etc.).
+- `macbook_pro/`: ajustes para equipo macOS.
+- `resources/`: manifiestos de paquetes (Homebrew/Pacman).
+- `scripts/`: utilidades de mantenimiento y automatizacion.
+- `tmuxinator/`: plantillas y scripts para sesiones de proyectos.
 
-## Quick start
-1. Clone into `~/dotfiles`.
-2. From `~/dotfiles`, stow the configs you need:
-   - macOS: `stow global` and any app-specific dirs.
-   - Arch/Linux: `stow arch global` (or select subfolders).
-3. Restart the shell to load zsh/tmux defaults.
+## Requisitos
 
-## Package manifests
-- Homebrew: `resources/homebrew/Brewfile` (macOS) and `resources/homebrew/Brewfile-linux` (Linux).
-- Pacman: regenerate with `sudo pacman -Qqe > resources/pacman/packages.txt`.
+- `git`, `stow`, `zsh`, `tmux`, `tmuxinator`
+- Homebrew o Pacman segun sistema
 
-## Scripts
-- `scripts/upgrade.sh` — updates Oh My Zsh, Homebrew, npm, and Neovim; on Linux also runs `sudo pacman -Syu` and refreshes manifests. Review before running.
-- `scripts/projects.zsh` — tmuxinator launcher/cleaner with `fzf` UI for managing YAML links.
-- `scripts/treecat.py` — exports directory trees and file contents (avoid running in folders containing secrets).
+## Instalacion rapida
 
-## Tmuxinator templates
-- `tmuxinator/start.zsh` scaffolds per-project configs and symlinks them into `~/.config/tmuxinator`.
-- `tmuxinator/template.yml` and `tmuxinator/variables.zsh` act as the base; `move_windows.zsh` automates placing browser windows.
+1. Clona el repositorio en `~/dotfiles`.
+2. Desde `~/dotfiles`, aplica modulos con `stow`:
 
-## Notes
-- Keep `.stow-local-ignore` patterns intact to avoid stowing resources/scripts unintentionally.
-- Always sanity-check package lists and scripts before running them on new machines.
+```bash
+stow global
+```
+
+En Arch puedes agregar:
+
+```bash
+stow arch global
+```
+
+3. Reinicia shell/tmux para cargar configuraciones.
+
+## Manifiestos de paquetes
+
+- Homebrew macOS: `resources/homebrew/Brewfile`
+- Homebrew Linux: `resources/homebrew/Brewfile-linux`
+- Pacman: `resources/pacman/packages.txt`
+
+## Scripts utiles
+
+- `scripts/upgrade.sh`: actualiza herramientas principales y manifiestos.
+- `scripts/projects.zsh`: launcher de configuraciones tmuxinator con `fzf`.
+- `scripts/treecat.py`: exporta arboles y contenido de carpetas.
+
+## Tmuxinator
+
+- `tmuxinator/start.zsh`: genera configuraciones por proyecto.
+- `tmuxinator/template.yml`: base de sesiones.
+- `tmuxinator/variables.zsh`: variables compartidas para templates.
+
+## Buenas practicas
+
+- Revisa `.stow-local-ignore` antes de stow para no enlazar carpetas no deseadas.
+- Valida scripts y manifests antes de ejecutarlos en equipos nuevos.
+- Mantener datos sensibles fuera de los dotfiles versionados.
