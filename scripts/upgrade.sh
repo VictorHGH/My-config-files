@@ -41,6 +41,7 @@ DRY_RUN=0
 STRICT=0
 NO_GIT_PULL=0
 NO_EXPORT=0
+CAN_RUN_PRIVILEGED_PACMAN=1
 
 for arg in "$@"; do
   case "$arg" in
@@ -85,6 +86,56 @@ function run() {
 }
 
 function have() { command -v "$1" >/dev/null 2>&1; }
+
+function init_privileged_pacman() {
+  CAN_RUN_PRIVILEGED_PACMAN=1
+
+  if [[ "$EUID" -eq 0 ]]; then
+    return
+  fi
+
+  if ! have sudo; then
+    CAN_RUN_PRIVILEGED_PACMAN=0
+    echo "sudo not found (skipping privileged pacman operations)"
+    return
+  fi
+
+  if sudo -n true >/dev/null 2>&1; then
+    return
+  fi
+
+  if [[ -t 0 ]]; then
+    echo "sudo credentials required for pacman operations..."
+    if ! sudo -v; then
+      CAN_RUN_PRIVILEGED_PACMAN=0
+      echo "Could not obtain sudo credentials (skipping privileged pacman operations)"
+    fi
+  else
+    CAN_RUN_PRIVILEGED_PACMAN=0
+    echo "No interactive TTY for sudo (skipping privileged pacman operations)"
+  fi
+}
+
+function run_pacman_privileged() {
+  if [[ "$CAN_RUN_PRIVILEGED_PACMAN" -ne 1 ]]; then
+    return 0
+  fi
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    if [[ "$EUID" -eq 0 ]]; then
+      echo "+ pacman $*"
+    else
+      echo "+ sudo pacman $*"
+    fi
+    return 0
+  fi
+
+  if [[ "$EUID" -eq 0 ]]; then
+    pacman "$@"
+  else
+    sudo pacman "$@"
+  fi
+}
 
 function normalize_brewfile_in_place() {
   local file="$1"
@@ -251,7 +302,7 @@ function pacman_sync_install_missing() {
   fi
 
   if [[ -s "$found_tmp" ]]; then
-    run "sudo pacman -S --needed - < '$found_tmp'"
+    run_pacman_privileged -S --needed - < "$found_tmp"
   else
     echo "No installable packages found (after filtering)."
   fi
@@ -297,20 +348,16 @@ function pacman_strict_remove_extras() {
   echo "Packages to remove (after protection filters):"
   cat "$extras_tmp"
 
-  if [[ "$DRY_RUN" -eq 1 ]]; then
-    echo "(dry-run) Would run: sudo pacman -Rns - < extras"
-  else
-    echo
-    echo "Removing extras..."
-    sudo pacman -Rns - < "$extras_tmp"
-  fi
+  echo
+  echo "Removing extras..."
+  run_pacman_privileged -Rns - < "$extras_tmp"
 
   rm -f "$desired_tmp" "$current_tmp" "$extras_tmp" "$protect_tmp"
 }
 
 function pacman_upgrade() {
   print_help "pacman upgrade"
-  run "sudo pacman -Syu"
+  run_pacman_privileged -Syu
 }
 
 # ----------------------------
@@ -353,7 +400,7 @@ function export_linux_state() {
 
   print_help "Export Linux package state"
   run "mkdir -p '$DOTFILES_DIR/resources/pacman'"
-  run "sudo pacman -Qqe | LC_ALL=C sort -u > '$PACMAN_LIST'"
+  run "pacman -Qqe | LC_ALL=C sort -u > '$PACMAN_LIST'"
 
   if have brew; then
     run "mkdir -p '$DOTFILES_DIR/resources/homebrew'"
@@ -401,6 +448,7 @@ function common_flow() {
 
 function linux_flow() {
   git_pull_dotfiles
+  init_privileged_pacman
   pacman_sync_install_missing
   pacman_strict_remove_extras
   pacman_upgrade
