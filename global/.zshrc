@@ -95,7 +95,7 @@ function linux_options() {
 
   setxkbmap -layout us -variant altgr-intl
   setxkbmap -option caps:escape
-  xinput set-prop 9 313 1
+  # xinput set-prop 9 313 1
   export PATH=$PATH:/opt/lampp/bin
 
   # Homebrew
