@@ -82,7 +82,7 @@ local plugins = {
 	"easymotion/vim-easymotion",
 
 	-- Rest client
-	"rest-nvim/rest.nvim",
+	--[[ "rest-nvim/rest.nvim", ]]
 
 	-- SQL UI for Neovim
 	'tpope/vim-dadbod',
