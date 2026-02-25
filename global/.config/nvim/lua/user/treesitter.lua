@@ -9,15 +9,10 @@ ts.setup({
 	install_dir = vim.fn.stdpath("data") .. "/site",
 })
 
-local installed = ts.get_installed("parsers")
-local installed_set = {}
-for _, parser in ipairs(installed) do
-	installed_set[parser] = true
-end
-
 local missing = {}
 for _, parser in ipairs(parsers) do
-	if not installed_set[parser] then
+	local ok = vim.treesitter.language.add(parser)
+	if not ok then
 		table.insert(missing, parser)
 	end
 end
