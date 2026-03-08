@@ -139,3 +139,6 @@ fi
 
 # opencode
 export PATH=/home/$USER/.opencode/bin:$PATH
+
+# opencode
+export PATH=/Users/VictorHGH/.opencode/bin:$PATH

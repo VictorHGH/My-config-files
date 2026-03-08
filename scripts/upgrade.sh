@@ -233,6 +233,26 @@ function upgrade_brew() {
   fi
 }
 
+function fix_python_tabulate_link_conflict() {
+  local brew_prefix tabulate_bin
+
+  if ! have brew; then
+    return
+  fi
+
+  if ! brew --prefix python-tabulate >/dev/null 2>&1; then
+    return
+  fi
+
+  brew_prefix="$(brew --prefix)"
+  tabulate_bin="$brew_prefix/bin/tabulate"
+
+  if [[ -e "$tabulate_bin" && ! -L "$tabulate_bin" ]]; then
+    print_help "Fix python-tabulate link conflict"
+    run "brew link --overwrite python-tabulate"
+  fi
+}
+
 function upgrade_npm_global() {
   print_help "npm (global)"
   if have npm; then
@@ -369,6 +389,9 @@ function brew_bundle_sync_mac() {
     echo "brew not found (skipping brew bundle)"
     return
   fi
+
+  fix_python_tabulate_link_conflict
+
   if [[ -f "$BREWFILE_MAC" ]]; then
     run "brew bundle --file '$BREWFILE_MAC'"
   else
