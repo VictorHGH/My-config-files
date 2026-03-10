@@ -267,6 +267,43 @@ install_manifests() {
   esac
 }
 
+install_oh_my_zsh() {
+  local installer_url="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+
+  if [[ -s "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]]; then
+    log "Oh My Zsh already installed"
+    return
+  fi
+
+  if ! have zsh; then
+    warn "zsh is required before installing Oh My Zsh"
+    return
+  fi
+
+  if ! have git; then
+    warn "git is required before installing Oh My Zsh"
+    return
+  fi
+
+  log "Installing Oh My Zsh"
+
+  if have curl; then
+    if ! RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL "$installer_url")"; then
+      warn "Oh My Zsh installation failed"
+    fi
+    return
+  fi
+
+  if have wget; then
+    if ! RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(wget -qO- "$installer_url")"; then
+      warn "Oh My Zsh installation failed"
+    fi
+    return
+  fi
+
+  warn "Neither curl nor wget found; cannot install Oh My Zsh automatically"
+}
+
 set_zsh_default() {
   local platform="$1"
 
@@ -325,6 +362,7 @@ main() {
   clone_or_update_dotfiles
   run_stow
   install_manifests "$platform"
+  install_oh_my_zsh
   set_zsh_default "$platform"
 
   log "Bootstrap complete"

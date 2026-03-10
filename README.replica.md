@@ -52,7 +52,7 @@ Personal development environment configuration managed with GNU Stow.
 - Termux: edit `resources/termux/packages.txt`.
 
 ## Scripts
-- `scripts/bootstrap.sh` provisions a new host (base packages, stow modules, package manifest install, zsh default shell).
+- `scripts/bootstrap.sh` provisions a new host (base packages, stow modules, package manifest install, installs Oh My Zsh if missing, and sets zsh as default shell).
 - Safe test mode: `./scripts/bootstrap.sh --profile arch-desktop --no-base-tools --no-packages --no-shell --no-update`
 - `scripts/upgrade.sh` updates Oh My Zsh, Homebrew, npm, and Neovim; on Linux also runs `sudo pacman -Syu` and refreshes manifests. Review before running.
 - `scripts/treecat.py` exports directory trees and file contents (avoid running in folders containing secrets).

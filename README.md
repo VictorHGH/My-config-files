@@ -59,7 +59,7 @@ stow macbook_pro global
 
 ## Scripts utiles
 
-- `scripts/bootstrap.sh`: prepara maquina nueva por perfil (paquetes, stow y zsh por defecto).
+- `scripts/bootstrap.sh`: prepara maquina nueva por perfil (paquetes, stow, instala Oh My Zsh si falta y zsh por defecto).
 - Modo prueba seguro: `./scripts/bootstrap.sh --profile arch-desktop --no-base-tools --no-packages --no-shell --no-update`
 - `scripts/upgrade.sh`: actualiza herramientas principales y manifiestos.
 - `scripts/treecat.py`: exporta arboles y contenido de carpetas.
