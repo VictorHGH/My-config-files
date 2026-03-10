@@ -4,63 +4,69 @@ Personal development environment configuration managed with GNU Stow.
 
 ## What's included
 - Zsh + oh-my-zsh, aliases, and plugins
-- tmux/oh-my-tmux and tmuxinator templates
 - Neovim/Lua tooling and linters
-- Homebrew and pacman package manifests
+- Homebrew, pacman, and Termux package manifests
 - Helper scripts for setup and maintenance
 
 ## Repository layout
-- `global/`: cross-platform dotfiles stowed into `$HOME` (zsh, git, tmux local config, Neovim).
-- `arch/`: Arch-only configs stowed into `$HOME` (i3, i3status).
+- `global/`: cross-platform dotfiles stowed into `$HOME` (zsh, git, Neovim).
+- `arch/`: Arch desktop host overrides (i3/i3status).
+- `macbook_pro/`: Arch MacBook host overrides (i3/i3status).
 - `resources/`: package manifests (not stowed).
 - `scripts/`: setup and maintenance helpers (not stowed).
-- `tmuxinator/`: templates and scaffolding helpers (not stowed).
 
 ## Prerequisites
-- `stow`, `zsh`, `tmux`, `tmuxinator`
+- `stow`, `zsh`, `neovim`
 - macOS or Linux with a package manager (Homebrew/pacman)
 - `git` and common build tools if you install dev packages
 
 ## Quick start
-1. Clone into `~/dotfiles`.
-2. From `~/dotfiles`, stow the configs you need:
-   - macOS: `stow global` and any app-specific dirs.
-   - Arch/Linux: `stow arch global` (or select subfolders).
-3. Restart the shell to load zsh/tmux defaults.
+1. Run bootstrap with a profile:
+   - `./scripts/bootstrap.sh --profile arch-desktop`
+   - `./scripts/bootstrap.sh --profile arch-macbook`
+   - `./scripts/bootstrap.sh --profile mac-mini`
+   - `./scripts/bootstrap.sh --profile termux`
+2. Or stow manually from `~/dotfiles` if needed.
+3. Restart the shell to load zsh defaults.
 
 ## Replicate on a new machine
-1. Install base tools: `git`, `stow`, `zsh`, `tmux`, `tmuxinator`, `neovim`.
+1. Install base tools: `git`, `stow`, `zsh`, `neovim`.
 2. Install packages from manifests:
-   - macOS: `brew bundle --file resources/homebrew/Brewfile`
-   - Linuxbrew: `brew bundle --file resources/homebrew/Brewfile-linux`
-   - Arch: `sudo pacman -S --needed - < resources/pacman/packages.txt`
+    - macOS: `brew bundle --file resources/homebrew/Brewfile`
+    - Linuxbrew: `brew bundle --file resources/homebrew/Brewfile-linux`
+    - Arch: `sudo pacman -S --needed - < resources/pacman/packages.txt`
+    - Termux: `xargs pkg install -y < resources/termux/packages.txt`
 3. Install oh-my-zsh and required plugins (see `.zshrc` plugin lists).
-4. Install gpakosz tmux (oh-my-tmux) and keep `.tmux.conf.local` from this repo:
-   - Clone https://github.com/gpakosz/.tmux to `~/.tmux`
-   - Symlink `~/.tmux/.tmux.conf` to `~/.tmux.conf`
-5. Clone this repo into `~/dotfiles` and run `stow` from there.
-6. Set zsh as the default shell (`chsh -s $(which zsh)`) if needed.
-7. Open Neovim once to let `lazy.nvim` bootstrap plugins, then run `:Lazy sync`.
-8. Use `tmuxinator/start.zsh` to scaffold per-project tmuxinator configs.
+4. Clone this repo into `~/dotfiles` and run `stow` from there.
+5. Set zsh as the default shell (`chsh -s $(which zsh)`) if needed.
+6. Open Neovim once to let `lazy.nvim` bootstrap plugins, then run `:Lazy sync`.
 
 ## Machine-specific tweaks
 - Update `global/.gitconfig` with your name/email.
 - Verify `global/.zshrc` paths and aliases match your home directory.
-- Ensure `$USERNAME` is set (or switch to `$USER`) so oh-my-zsh paths resolve.
 - Adjust Linux-only commands in `.zshrc` (`setxkbmap`, `xinput`) for new hardware.
 
 ## Package manifests
 - Homebrew: `resources/homebrew/Brewfile` (macOS) and `resources/homebrew/Brewfile-linux` (Linux).
 - Pacman: regenerate with `sudo pacman -Qqe > resources/pacman/packages.txt`.
+- Termux: edit `resources/termux/packages.txt`.
 
 ## Scripts
+- `scripts/bootstrap.sh` provisions a new host (base packages, stow modules, package manifest install, zsh default shell).
+- Safe test mode: `./scripts/bootstrap.sh --profile arch-desktop --no-base-tools --no-packages --no-shell --no-update`
 - `scripts/upgrade.sh` updates Oh My Zsh, Homebrew, npm, and Neovim; on Linux also runs `sudo pacman -Syu` and refreshes manifests. Review before running.
-- `scripts/projects.zsh` is a tmuxinator launcher/cleaner with an `fzf` UI for managing YAML links.
 - `scripts/treecat.py` exports directory trees and file contents (avoid running in folders containing secrets).
 
-## Tmuxinator templates
-- `tmuxinator/start.zsh` scaffolds per-project configs and symlinks them into `~/.config/tmuxinator`.
-- `tmuxinator/template.yml` and `tmuxinator/variables.zsh` act as the base; `move_windows.zsh` automates placing browser windows.
+## i3 layout
+- Shared config: `resources/i3/config.shared`
+- Arch desktop host file: `arch/.config/i3/config.host.conf`
+- Arch MacBook host file: `macbook_pro/.config/i3/config.host.conf`
+
+## Add a new profile/OS
+1. Create a host folder (example: `work_laptop/.config/i3/`) with `config` and `config.host.conf`.
+2. Add the profile mapping in `scripts/bootstrap.sh` and define stow modules.
+3. If needed, add package manifests under `resources/` and wire them in `bootstrap.sh`.
+4. Document the new profile in Quick start profile examples.
 
 ## Notes
 - Keep `.stow-local-ignore` patterns intact to avoid stowing resources/scripts unintentionally.
