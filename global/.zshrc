@@ -29,6 +29,7 @@ function general_options() {
   # Change ZSH Options
   export EDITOR=nvim
   export VISUAL="$EDITOR"
+  bindkey -v
   
   # Add Locations to $PATH Variables
   export PATH="/usr/local/sbin:$PATH"
@@ -124,6 +125,29 @@ function linux_options() {
   alias icr='cd ~/Documents/programacion/maestria/ICR/'
 }
 
+function setup_kitty_vi_cursor() {
+  [[ -z "$KITTY_WINDOW_ID" ]] && return
+
+  function zle-keymap-select() {
+    case "$KEYMAP" in
+      vicmd) printf '\e[1 q' ;;
+      *) printf '\e[5 q' ;;
+    esac
+  }
+
+  function zle-line-init() {
+    printf '\e[5 q'
+  }
+
+  function zle-line-finish() {
+    printf '\e[5 q'
+  }
+
+  zle -N zle-keymap-select
+  zle -N zle-line-init
+  zle -N zle-line-finish
+}
+
 if [[ "$OSTYPE" == "darwin"* ]] then
   # Mac OSX
   general_options
@@ -136,6 +160,8 @@ else
   echo "Unknown Operating system. Exiting."
   exit 1
 fi
+
+setup_kitty_vi_cursor
 
 # opencode
 export PATH=/home/$USER/.opencode/bin:$PATH
