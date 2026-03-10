@@ -45,11 +45,16 @@ function general_options() {
   alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
   alias dot='nvim ~/dotfiles/'
   alias lazy='lazygit'
-  alias run='~/dotfiles/scripts/projects.zsh'
   alias PG='~/Documents/programacion'
-  alias copy='xclip -selection clipboard'
   alias spark='docker exec -w /var/www/html/ titulos_php php spark'
-  alias starto='$HOME/dotfiles/tmuxinator/start.zsh'
+
+  if command -v xclip >/dev/null 2>&1; then
+    alias copy='xclip -selection clipboard'
+  elif command -v pbcopy >/dev/null 2>&1; then
+    alias copy='pbcopy'
+  elif command -v termux-clipboard-set >/dev/null 2>&1; then
+    alias copy='termux-clipboard-set'
+  fi
 }
 
 function mac_options() {
@@ -62,7 +67,7 @@ function mac_options() {
   export GPG_TTY=$(tty)
 
   # Oh-my-zsh
-  export ZSH="/Users/$USERNAME/.oh-my-zsh"
+  export ZSH="$HOME/.oh-my-zsh"
   source $ZSH/oh-my-zsh.sh
 
   # FMN
@@ -89,29 +94,34 @@ function mac_options() {
   alias icr='cd ~/Documents/Maestria/Investigacion\ general/ICR/ICR/'
 
   # Programacion
-  alias password='python3 /Users/$USERNAME/Documents/programacion/python/passwords/pass.py'
+  alias password='python3 $HOME/Documents/programacion/python/passwords/pass.py'
 }
 
 function linux_options() {
 
-  setxkbmap -layout us -variant altgr-intl
-  setxkbmap -option caps:escape
+  if [[ -n "${DISPLAY:-}" ]] && command -v setxkbmap >/dev/null 2>&1; then
+    setxkbmap -layout us -variant altgr-intl
+    setxkbmap -option caps:escape
+  fi
   # xinput set-prop 9 313 1
   export PATH=$PATH:/opt/lampp/bin
 
   # Homebrew
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  fi
 
   # FMN
-  eval "$(fnm env --use-on-cd)"
+  if command -v fnm >/dev/null 2>&1; then
+    eval "$(fnm env --use-on-cd)"
+  fi
 
   # Oh-my-zsh
-  export ZSH="/home/$USERNAME/.oh-my-zsh"
+  export ZSH="$HOME/.oh-my-zsh"
   source $ZSH/oh-my-zsh.sh
 
   plugins=(
     git
-	tmuxinator
 	pipenv
 	fnm
 	laravel
@@ -123,6 +133,20 @@ function linux_options() {
   
   # Aliases
   alias icr='cd ~/Documents/programacion/maestria/ICR/'
+}
+
+function termux_options() {
+  export ZSH="$HOME/.oh-my-zsh"
+  source $ZSH/oh-my-zsh.sh
+
+  if command -v fnm >/dev/null 2>&1; then
+    eval "$(fnm env --use-on-cd)"
+  fi
+
+  plugins=(
+    git
+    vi-mode
+  )
 }
 
 function setup_kitty_vi_cursor() {
@@ -148,11 +172,15 @@ function setup_kitty_vi_cursor() {
   zle -N zle-line-finish
 }
 
-if [[ "$OSTYPE" == "darwin"* ]] then
+if [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX
   general_options
   mac_options
-elif [[ "$OSTYPE" == "linux"* ]] then
+elif [[ -n "${TERMUX_VERSION:-}" ]] || [[ "${PREFIX:-}" == "/data/data/com.termux/files/usr" ]]; then
+  # Termux
+  general_options
+  termux_options
+elif [[ "$OSTYPE" == "linux"* ]]; then
   # Linux
   general_options
   linux_options
@@ -163,8 +191,6 @@ fi
 
 setup_kitty_vi_cursor
 
-# opencode
-export PATH=/home/$USER/.opencode/bin:$PATH
-
-# opencode
-export PATH=/Users/VictorHGH/.opencode/bin:$PATH
+if [[ -d "$HOME/.opencode/bin" ]]; then
+  export PATH="$HOME/.opencode/bin:$PATH"
+fi

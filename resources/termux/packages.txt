@@ -1,0 +1,14 @@
+git
+stow
+zsh
+neovim
+curl
+wget
+ripgrep
+fd
+fzf
+bat
+tree
+python
+nodejs-lts
+openssh

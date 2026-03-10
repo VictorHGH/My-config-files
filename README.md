@@ -4,52 +4,78 @@ Configuracion personal de entorno de desarrollo gestionada con GNU Stow.
 
 ## Contenido del repositorio
 
-- `global/`: configuraciones compartidas (zsh, git, tmux local, neovim).
-- `arch/`: configuraciones especificas para Arch Linux (i3, i3status, etc.).
-- `macbook_pro/`: ajustes para equipo macOS.
-- `resources/`: manifiestos de paquetes (Homebrew/Pacman).
+- `global/`: configuraciones compartidas (zsh, git, neovim).
+- `arch/`: ajustes de host para Arch desktop (modkey y overrides de i3).
+- `macbook_pro/`: ajustes de host para Arch en MacBook (teclas multimedia, brillo, etc.).
+- `resources/`: manifiestos de paquetes (Homebrew/Pacman/Termux).
 - `scripts/`: utilidades de mantenimiento y automatizacion.
-- `tmuxinator/`: plantillas y scripts para sesiones de proyectos.
 
 ## Requisitos
 
-- `git`, `stow`, `zsh`, `tmux`, `tmuxinator`
+- `git`, `stow`, `zsh`, `neovim`
 - Homebrew o Pacman segun sistema
 
 ## Instalacion rapida
 
-1. Clona el repositorio en `~/dotfiles`.
-2. Desde `~/dotfiles`, aplica modulos con `stow`:
+1. Ejecuta bootstrap segun perfil:
+
+```bash
+./scripts/bootstrap.sh --profile arch-desktop
+```
+
+Perfiles soportados:
+
+- `arch-desktop` / `work-pc`
+- `arch-macbook` / `macbook-pro`
+- `mac-mini`
+- `termux` / `redmi-a5`
+
+2. Si prefieres manual, desde `~/dotfiles` aplica modulos con `stow`:
 
 ```bash
 stow global
 ```
 
-En Arch puedes agregar:
+En Arch desktop:
 
 ```bash
 stow arch global
 ```
 
-3. Reinicia shell/tmux para cargar configuraciones.
+En Arch MacBook:
+
+```bash
+stow macbook_pro global
+```
+
+3. Reinicia shell para cargar configuraciones.
 
 ## Manifiestos de paquetes
 
 - Homebrew macOS: `resources/homebrew/Brewfile`
 - Homebrew Linux: `resources/homebrew/Brewfile-linux`
 - Pacman: `resources/pacman/packages.txt`
+- Termux: `resources/termux/packages.txt`
 
 ## Scripts utiles
 
+- `scripts/bootstrap.sh`: prepara maquina nueva por perfil (paquetes, stow y zsh por defecto).
+- Modo prueba seguro: `./scripts/bootstrap.sh --profile arch-desktop --no-base-tools --no-packages --no-shell --no-update`
 - `scripts/upgrade.sh`: actualiza herramientas principales y manifiestos.
-- `scripts/projects.zsh`: launcher de configuraciones tmuxinator con `fzf`.
 - `scripts/treecat.py`: exporta arboles y contenido de carpetas.
 
-## Tmuxinator
+## i3 sin duplicacion
 
-- `tmuxinator/start.zsh`: genera configuraciones por proyecto.
-- `tmuxinator/template.yml`: base de sesiones.
-- `tmuxinator/variables.zsh`: variables compartidas para templates.
+- Config comun: `resources/i3/config.shared`
+- Host Arch desktop: `arch/.config/i3/config.host.conf`
+- Host Arch MacBook: `macbook_pro/.config/i3/config.host.conf`
+
+## Agregar nuevo perfil o sistema
+
+1. Crea carpeta de host (ejemplo: `work_laptop/.config/i3/`) con `config` y `config.host.conf`.
+2. Agrega el perfil al `case` en `scripts/bootstrap.sh` y define sus modulos de stow.
+3. Si requiere paquetes nuevos, agrega manifiesto en `resources/` y enlazalo en `bootstrap.sh`.
+4. Documenta el perfil en este README (seccion de perfiles soportados).
 
 ## Buenas practicas
 
