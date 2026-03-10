@@ -12,3 +12,5 @@ tree
 python
 nodejs-lts
 openssh
+lazygit
+htop
