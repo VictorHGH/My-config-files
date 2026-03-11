@@ -12,6 +12,7 @@ Personal development environment configuration managed with GNU Stow.
 - `global/`: cross-platform dotfiles stowed into `$HOME` (zsh, git, Neovim).
 - `arch/`: Arch desktop host overrides (i3/i3status).
 - `macbook_pro/`: Arch MacBook host overrides (i3/i3status).
+- `mac_mini/`: macOS Mac mini host overrides (kitty).
 - `resources/`: package manifests (not stowed).
 - `scripts/`: setup and maintenance helpers (not stowed).
 
@@ -26,7 +27,10 @@ Personal development environment configuration managed with GNU Stow.
    - `./scripts/bootstrap.sh --profile arch-macbook`
    - `./scripts/bootstrap.sh --profile mac-mini`
    - `./scripts/bootstrap.sh --profile termux`
-2. Or stow manually from `~/dotfiles` if needed.
+2. Or stow manually from `~/dotfiles` if needed:
+   - Arch desktop: `stow arch global`
+   - Arch MacBook: `stow macbook_pro global`
+   - Mac mini: `stow global mac_mini`
 3. Restart the shell to load zsh defaults.
 
 ## Replicate on a new machine

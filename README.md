@@ -7,6 +7,7 @@ Configuracion personal de entorno de desarrollo gestionada con GNU Stow.
 - `global/`: configuraciones compartidas (zsh, git, neovim).
 - `arch/`: ajustes de host para Arch desktop (modkey y overrides de i3).
 - `macbook_pro/`: ajustes de host para Arch en MacBook (teclas multimedia, brillo, etc.).
+- `mac_mini/`: ajustes de host para macOS en Mac mini (overrides de kitty).
 - `resources/`: manifiestos de paquetes (Homebrew/Pacman/Termux).
 - `scripts/`: utilidades de mantenimiento y automatizacion.
 
@@ -46,6 +47,12 @@ En Arch MacBook:
 
 ```bash
 stow macbook_pro global
+```
+
+En Mac mini:
+
+```bash
+stow global mac_mini
 ```
 
 3. Reinicia shell para cargar configuraciones.

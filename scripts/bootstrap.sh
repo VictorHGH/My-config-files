@@ -136,7 +136,7 @@ normalize_profile() {
       STOW_MODULES=(global macbook_pro)
       ;;
     mac-mini|macos)
-      STOW_MODULES=(global)
+      STOW_MODULES=(global mac_mini)
       ;;
     termux|redmi-a5)
       STOW_MODULES=(global)
@@ -199,7 +199,7 @@ clone_or_update_dotfiles() {
 }
 
 run_stow() {
-  local host_modules=(arch macbook_pro)
+  local host_modules=(arch macbook_pro mac_mini)
   local mod selected
 
   log "Cleaning conflicting host modules"
