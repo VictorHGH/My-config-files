@@ -16,6 +16,7 @@ BREWFILE_MAC="resources/homebrew/Brewfile"
 TERMUX_FILE="resources/termux/packages.txt"
 EARLY_KBD_SCRIPT_FILE="scripts/ensure-early-kbd.sh"
 EARLY_KBD_HOOK_FILE="resources/pacman/hooks/95-early-kbd.hook"
+AUDIO_HDA_MODPROBE_FILE="resources/modprobe/99-snd-hda-intel.conf"
 
 STOW_MODULES=()
 
@@ -29,7 +30,7 @@ Options:
   --dir <path>         Dotfiles target directory (default: ~/dotfiles)
   --no-base-tools      Skip base tool installation step
   --no-packages        Skip package manifest installation
-  --no-system-fixes    Skip Arch-specific system fixes (mkinitcpio/pacman hooks)
+  --no-system-fixes    Skip Arch-specific system fixes (mkinitcpio/pacman/audio)
   --no-shell           Skip setting zsh as default shell
   --no-update          Do not git pull if dotfiles dir already exists
   -h, --help           Show this help
@@ -289,6 +290,7 @@ install_arch_system_fixes() {
 
   local src_script="$DOTFILES_DIR/$EARLY_KBD_SCRIPT_FILE"
   local src_hook="$DOTFILES_DIR/$EARLY_KBD_HOOK_FILE"
+  local src_audio_modprobe="$DOTFILES_DIR/$AUDIO_HDA_MODPROBE_FILE"
 
   if [[ ! -f "$src_script" ]]; then
     warn "Missing $EARLY_KBD_SCRIPT_FILE"
@@ -297,6 +299,11 @@ install_arch_system_fixes() {
 
   if [[ ! -f "$src_hook" ]]; then
     warn "Missing $EARLY_KBD_HOOK_FILE"
+    return
+  fi
+
+  if [[ ! -f "$src_audio_modprobe" ]]; then
+    warn "Missing $AUDIO_HDA_MODPROBE_FILE"
     return
   fi
 
@@ -327,11 +334,29 @@ install_arch_system_fixes() {
     if ! /usr/local/sbin/ensure-early-kbd --rebuild; then
       warn "ensure-early-kbd failed; run it manually"
     fi
+
+    log "Installing audio jack startup fix"
+    install -Dm644 "$src_audio_modprobe" /etc/modprobe.d/99-snd-hda-intel.conf
+    if [[ -e /sys/module/snd_hda_intel/parameters/power_save ]]; then
+      printf '%s\n' 0 > /sys/module/snd_hda_intel/parameters/power_save || true
+    fi
+    if [[ -e /sys/module/snd_hda_intel/parameters/power_save_controller ]]; then
+      printf '%s\n' N > /sys/module/snd_hda_intel/parameters/power_save_controller || true
+    fi
   else
     sudo install -Dm755 "$src_script" /usr/local/sbin/ensure-early-kbd
     sudo install -Dm644 "$src_hook" /etc/pacman.d/hooks/95-early-kbd.hook
     if ! sudo /usr/local/sbin/ensure-early-kbd --rebuild; then
       warn "ensure-early-kbd failed; run it manually"
+    fi
+
+    log "Installing audio jack startup fix"
+    sudo install -Dm644 "$src_audio_modprobe" /etc/modprobe.d/99-snd-hda-intel.conf
+    if [[ -e /sys/module/snd_hda_intel/parameters/power_save ]]; then
+      printf '%s\n' 0 | sudo tee /sys/module/snd_hda_intel/parameters/power_save >/dev/null || true
+    fi
+    if [[ -e /sys/module/snd_hda_intel/parameters/power_save_controller ]]; then
+      printf '%s\n' N | sudo tee /sys/module/snd_hda_intel/parameters/power_save_controller >/dev/null || true
     fi
   fi
 }
