@@ -1,0 +1,14 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = mkinitcpio
+Target = linux
+Target = linux-lts
+Target = linux-zen
+Target = linux-hardened
+
+[Action]
+Description = Ensure early USB keyboard modules for LUKS unlock
+When = PostTransaction
+Exec = /usr/local/sbin/ensure-early-kbd

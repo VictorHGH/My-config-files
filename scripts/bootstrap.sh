@@ -9,10 +9,13 @@ INSTALL_BASE_TOOLS=1
 INSTALL_PACKAGES=1
 SET_ZSH_DEFAULT=1
 UPDATE_DOTFILES=1
+INSTALL_SYSTEM_FIXES=1
 
 PACMAN_FILE="resources/pacman/packages.txt"
 BREWFILE_MAC="resources/homebrew/Brewfile"
 TERMUX_FILE="resources/termux/packages.txt"
+EARLY_KBD_SCRIPT_FILE="scripts/ensure-early-kbd.sh"
+EARLY_KBD_HOOK_FILE="resources/pacman/hooks/95-early-kbd.hook"
 
 STOW_MODULES=()
 
@@ -26,6 +29,7 @@ Options:
   --dir <path>         Dotfiles target directory (default: ~/dotfiles)
   --no-base-tools      Skip base tool installation step
   --no-packages        Skip package manifest installation
+  --no-system-fixes    Skip Arch-specific system fixes (mkinitcpio/pacman hooks)
   --no-shell           Skip setting zsh as default shell
   --no-update          Do not git pull if dotfiles dir already exists
   -h, --help           Show this help
@@ -72,6 +76,10 @@ parse_args() {
         ;;
       --no-packages)
         INSTALL_PACKAGES=0
+        shift
+        ;;
+      --no-system-fixes)
+        INSTALL_SYSTEM_FIXES=0
         shift
         ;;
       --no-base-tools)
@@ -267,6 +275,67 @@ install_manifests() {
   esac
 }
 
+install_arch_system_fixes() {
+  local platform="$1"
+
+  if [[ "$platform" != "arch" ]]; then
+    return
+  fi
+
+  if [[ "$INSTALL_SYSTEM_FIXES" -ne 1 ]]; then
+    log "Skipping Arch system fixes"
+    return
+  fi
+
+  local src_script="$DOTFILES_DIR/$EARLY_KBD_SCRIPT_FILE"
+  local src_hook="$DOTFILES_DIR/$EARLY_KBD_HOOK_FILE"
+
+  if [[ ! -f "$src_script" ]]; then
+    warn "Missing $EARLY_KBD_SCRIPT_FILE"
+    return
+  fi
+
+  if [[ ! -f "$src_hook" ]]; then
+    warn "Missing $EARLY_KBD_HOOK_FILE"
+    return
+  fi
+
+  if [[ "$EUID" -ne 0 ]]; then
+    if ! have sudo; then
+      warn "sudo not found; skipping Arch system fixes"
+      return
+    fi
+
+    if ! sudo -n true >/dev/null 2>&1; then
+      if [[ -t 0 ]]; then
+        log "sudo credentials required for Arch system fixes"
+        if ! sudo -v; then
+          warn "Could not obtain sudo credentials; skipping Arch system fixes"
+          return
+        fi
+      else
+        warn "No interactive TTY for sudo; skipping Arch system fixes"
+        return
+      fi
+    fi
+  fi
+
+  log "Installing early boot keyboard fix"
+  if [[ "$EUID" -eq 0 ]]; then
+    install -Dm755 "$src_script" /usr/local/sbin/ensure-early-kbd
+    install -Dm644 "$src_hook" /etc/pacman.d/hooks/95-early-kbd.hook
+    if ! /usr/local/sbin/ensure-early-kbd --rebuild; then
+      warn "ensure-early-kbd failed; run it manually"
+    fi
+  else
+    sudo install -Dm755 "$src_script" /usr/local/sbin/ensure-early-kbd
+    sudo install -Dm644 "$src_hook" /etc/pacman.d/hooks/95-early-kbd.hook
+    if ! sudo /usr/local/sbin/ensure-early-kbd --rebuild; then
+      warn "ensure-early-kbd failed; run it manually"
+    fi
+  fi
+}
+
 install_oh_my_zsh() {
   local installer_url="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 
@@ -362,6 +431,7 @@ main() {
   clone_or_update_dotfiles
   run_stow
   install_manifests "$platform"
+  install_arch_system_fixes "$platform"
   install_oh_my_zsh
   set_zsh_default "$platform"
 
