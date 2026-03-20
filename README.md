@@ -67,7 +67,9 @@ stow global mac_mini
 ## Scripts utiles
 
 - `scripts/bootstrap.sh`: prepara maquina nueva por perfil (paquetes, stow, instala Oh My Zsh si falta y zsh por defecto).
+- En perfil Arch, `bootstrap.sh` instala el fix de teclado temprano para LUKS (`/usr/local/sbin/ensure-early-kbd`) y el hook `95-early-kbd.hook`.
 - Modo prueba seguro: `./scripts/bootstrap.sh --profile arch-desktop --no-base-tools --no-packages --no-shell --no-update`
+- `scripts/ensure-early-kbd.sh`: asegura modulos USB/HID en `mkinitcpio.conf` y reconstruye initramfs cuando hace falta.
 - `scripts/upgrade.sh`: actualiza herramientas principales y manifiestos.
 - `scripts/treecat.py`: exporta arboles y contenido de carpetas.
 
