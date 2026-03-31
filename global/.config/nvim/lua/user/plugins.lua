@@ -63,7 +63,12 @@ local plugins = {
 
 	-- Tresitter
 	{ "nvim-treesitter/nvim-treesitter", branch = "main", lazy = false, build = ":TSUpdate" },
-	"JoosepAlviste/nvim-ts-context-commentstring",
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		opts = {
+			enable_autocmd = false,
+		},
+	},
 	"wuelnerdotexe/vim-astro",
 
 	-- Git
