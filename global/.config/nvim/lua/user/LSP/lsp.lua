@@ -11,6 +11,21 @@ vim.lsp.config("vetur_vls", {
 	capabilities = common.capabilities,
 })
 
+vim.lsp.config("emmet_ls", {
+	filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact", "vue" },
+	capabilities = common.capabilities,
+})
+
+vim.lsp.config("marksman", {
+	filetypes = { "markdown" },
+	capabilities = common.capabilities,
+})
+
+vim.lsp.config("tailwindcss", {
+	filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "astro" },
+	capabilities = common.capabilities,
+})
+
 -- 2) Conectar on_attach a TODOS los LSP
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspOnAttach", { clear = true }),
