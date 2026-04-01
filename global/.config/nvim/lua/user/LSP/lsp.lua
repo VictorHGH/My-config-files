@@ -1,7 +1,15 @@
 -- lua/user/LSP/lsp.lua
+local common = require("user.LSP.common")
 
 -- 1) Diagnósticos globales
-require("user.LSP.common").setup_diagnostics()
+common.setup_diagnostics()
+
+vim.lsp.config("vetur_vls", {
+	cmd = { "vls" },
+	filetypes = { "vue" },
+	root_markers = { "package.json", "vue.config.js", "vite.config.js", ".git" },
+	capabilities = common.capabilities,
+})
 
 -- 2) Conectar on_attach a TODOS los LSP
 vim.api.nvim_create_autocmd("LspAttach", {

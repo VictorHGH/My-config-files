@@ -1,11 +1,8 @@
 -- lua/user/LSP/on_attach.lua
-local lsp_format = require("lsp-format")
 
 local M = {}
 
 function M.setup(client, bufnr)
-	lsp_format.on_attach(client, bufnr)
-
 	if client:supports_method("textDocument/formatting") then
 		local grp = vim.api.nvim_create_augroup("LspFormatting_" .. bufnr, { clear = true })
 		vim.api.nvim_create_autocmd("BufWritePre", {
