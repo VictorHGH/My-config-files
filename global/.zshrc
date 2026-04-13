@@ -122,7 +122,6 @@ function linux_options() {
 
   plugins=(
     git
-	pipenv
 	fnm
 	laravel
 	brew
@@ -147,6 +146,12 @@ function termux_options() {
     git
     vi-mode
   )
+}
+
+function setup_pipenv_completion() {
+  if command -v pipenv >/dev/null 2>&1 && command -v register-python-argcomplete >/dev/null 2>&1; then
+    eval "$(register-python-argcomplete pipenv)"
+  fi
 }
 
 function setup_kitty_vi_cursor() {
@@ -188,6 +193,8 @@ else
   echo "Unknown Operating system. Exiting."
   exit 1
 fi
+
+setup_pipenv_completion
 
 setup_kitty_vi_cursor
 
