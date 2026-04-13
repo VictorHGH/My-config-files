@@ -122,6 +122,9 @@ ttf-nerd-fonts-symbols
 ufw
 uwsm
 vim
+virtualbox
+virtualbox-host-modules-arch
+virtualbox-host-modules-lts
 vulkan-intel
 vulkan-nouveau
 vulkan-radeon
