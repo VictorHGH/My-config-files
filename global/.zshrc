@@ -1,3 +1,4 @@
+clear
 function show_banner() {
   cat <<'EOF'
 
