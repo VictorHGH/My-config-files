@@ -23,6 +23,7 @@ freecad
 fuse-overlayfs
 fzf
 gdm
+genius
 git
 git-filter-repo
 github-cli
