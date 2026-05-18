@@ -12,8 +12,20 @@ vim.lsp.config("vetur_vls", {
 })
 
 vim.lsp.config("emmet_ls", {
-	filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact", "vue" },
+	filetypes = {
+		"html", "css", "scss",
+		"javascript", "javascriptreact",
+		"typescript", "typescriptreact",
+		"vue", "php",
+	},
 	capabilities = common.capabilities,
+	init_options = {
+		html = {
+			options = {
+				["output.selfClosingStyle"] = "html",
+			},
+		},
+	},
 })
 
 vim.lsp.config("marksman", {
@@ -49,7 +61,7 @@ local servers = {
 	"astro", "bashls", "clangd", "cssls", "marksman", "ruff",
 	"rust_analyzer", "tailwindcss", "texlab", "ts_ls", "vetur_vls",
 
-	-- con overrides: necesitas sus archivos en lsp/
+	-- con overrides: necesitas sus archivos en lsp/ o configuracion arriba
 	"emmet_ls", "html", "lua_ls", "phpactor",
 }
 

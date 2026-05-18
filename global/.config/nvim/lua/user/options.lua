@@ -40,6 +40,20 @@ vim.opt.guifont = "monospace:h17"               -- the font used in graphical ne
 vim.opt.colorcolumn = "120"
 vim.opt.shortmess:append("c")
 
+-- Native indentation markers. This replaces indent-blankline.nvim with a
+-- lightweight visible whitespace setup using dots.
+vim.opt.list = true
+vim.opt.listchars = { tab = ". ", leadmultispace = ".   ", trail = ".", extends = ">", precedes = "<" }
+
+-- Native folds. Common keys: za toggles current fold, zo opens, zc closes,
+-- zR opens all folds, and zM closes all folds.
+vim.opt.foldcolumn = "1"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set iskeyword+=$]])

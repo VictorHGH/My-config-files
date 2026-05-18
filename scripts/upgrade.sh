@@ -472,9 +472,9 @@ function common_flow() {
 function linux_flow() {
   git_pull_dotfiles
   init_privileged_pacman
+  pacman_upgrade
   pacman_sync_install_missing
   pacman_strict_remove_extras
-  pacman_upgrade
   brew_bundle_sync_linux
   upgrade_brew
   export_linux_state
