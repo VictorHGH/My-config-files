@@ -105,6 +105,7 @@ function linux_options() {
     setxkbmap -option caps:escape
   fi
   # xinput set-prop 9 313 1
+  export PATH="$HOME/.local/bin:$PATH"
   export PATH=$PATH:/opt/lampp/bin
 
   # Homebrew
@@ -202,3 +203,5 @@ setup_kitty_vi_cursor
 if [[ -d "$HOME/.opencode/bin" ]]; then
   export PATH="$HOME/.opencode/bin:$PATH"
 fi
+
+. "$HOME/.local/bin/env"
