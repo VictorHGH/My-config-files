@@ -4,6 +4,7 @@ base
 base-devel
 bind
 bluez-utils
+brave-bin
 brightnessctl
 broadcom-wl-dkms
 chromium
@@ -148,6 +149,8 @@ xorg-xinit
 xorg-xinput
 xss-lock
 xterm
+yay
+yay-debug
 zathura
 zathura-pdf-poppler
 zram-generator
