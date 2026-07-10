@@ -6,11 +6,28 @@ local parsers = {
 }
 
 local parser_by_filetype = {
+	blade = "blade",
 	cs = "c_sharp",
 	sh = "bash",
 	sshconfig = "ssh_config",
 	typescriptreact = "tsx",
 }
+
+vim.filetype.add({
+	extension = {
+		blade = "blade",
+		djhtml = "htmldjango",
+		jinja = "htmldjango",
+		jinja2 = "htmldjango",
+		j2 = "htmldjango",
+	},
+	pattern = {
+		[".*%.blade%.php"] = "blade",
+		[".*%.html%.j2"] = "htmldjango",
+		[".*%.html%.jinja"] = "htmldjango",
+		[".*%.html%.jinja2"] = "htmldjango",
+	},
+})
 
 ts.setup({
 	install_dir = vim.fn.stdpath("data") .. "/site",
@@ -30,9 +47,14 @@ if vim.fn.filereadable(runtime_lua_parser) == 1 then
 	end
 end
 
+local function has_highlights(parser)
+	local ok, query = pcall(vim.treesitter.query.get, parser, "highlights")
+	return ok and query ~= nil
+end
+
 for _, parser in ipairs(parsers) do
-	local ok = vim.treesitter.language.add(parser)
-	if not ok then
+	local ok, loaded = pcall(vim.treesitter.language.add, parser)
+	if not ok or not loaded or not has_highlights(parser) then
 		table.insert(missing, parser)
 	end
 end
