@@ -11,12 +11,16 @@ vim.lsp.config("vetur_vls", {
 	capabilities = common.capabilities,
 })
 
+vim.lsp.config("clangd", {
+	filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+})
+
 vim.lsp.config("emmet_ls", {
 	filetypes = {
 		"html", "css", "scss",
 		"javascript", "javascriptreact",
 		"typescript", "typescriptreact",
-		"vue", "php",
+		"vue", "php", "blade",
 	},
 	capabilities = common.capabilities,
 	init_options = {
@@ -34,7 +38,23 @@ vim.lsp.config("marksman", {
 })
 
 vim.lsp.config("tailwindcss", {
-	filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "astro" },
+	filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "astro", "blade" },
+	capabilities = common.capabilities,
+	settings = {
+		tailwindCSS = {
+			includeLanguages = {
+				blade = "html",
+			},
+		},
+	},
+})
+
+vim.lsp.config("html", {
+	filetypes = { "html", "blade" },
+	capabilities = common.capabilities,
+})
+
+vim.lsp.config("jsonls", {
 	capabilities = common.capabilities,
 })
 
@@ -58,7 +78,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- 3) Habilitar servidores
 local servers = {
 	-- sin overrides: no requieren archivo en lsp/
-	"astro", "bashls", "clangd", "cssls", "marksman", "ruff",
+	"astro", "bashls", "clangd", "cssls", "jsonls", "marksman", "ruff",
 	"rust_analyzer", "tailwindcss", "texlab", "ts_ls", "vetur_vls",
 
 	-- con overrides: necesitas sus archivos en lsp/ o configuracion arriba
