@@ -33,3 +33,10 @@ end
 if #missing > 0 then
 	ts.install(missing, { summary = false })
 end
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = parsers,
+	callback = function()
+		pcall(vim.treesitter.start)
+	end,
+})
