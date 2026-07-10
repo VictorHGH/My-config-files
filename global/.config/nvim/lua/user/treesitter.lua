@@ -5,6 +5,13 @@ local parsers = {
 	"dockerfile", "ssh_config", "blade",
 }
 
+local parser_by_filetype = {
+	cs = "c_sharp",
+	sh = "bash",
+	sshconfig = "ssh_config",
+	typescriptreact = "tsx",
+}
+
 ts.setup({
 	install_dir = vim.fn.stdpath("data") .. "/site",
 })
@@ -30,13 +37,42 @@ for _, parser in ipairs(parsers) do
 	end
 end
 
+for filetype, parser in pairs(parser_by_filetype) do
+	vim.treesitter.language.register(parser, filetype)
+end
+
 if #missing > 0 then
 	ts.install(missing, { summary = false })
 end
 
+local filetypes = vim.deepcopy(parsers)
+local enabled_filetypes = {}
+
+for _, filetype in ipairs(filetypes) do
+	enabled_filetypes[filetype] = true
+end
+
+for filetype in pairs(parser_by_filetype) do
+	table.insert(filetypes, filetype)
+	enabled_filetypes[filetype] = true
+end
+
+local function start_treesitter(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	if enabled_filetypes[vim.bo[bufnr].filetype] then
+		pcall(vim.treesitter.start, bufnr)
+	end
+end
+
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = parsers,
+	pattern = filetypes,
 	callback = function()
-		pcall(vim.treesitter.start)
+		start_treesitter()
 	end,
 })
+
+for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+	if vim.api.nvim_buf_is_loaded(bufnr) then
+		start_treesitter(bufnr)
+	end
+end
