@@ -15,10 +15,10 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
 vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
 
 -- Resize splits.
-vim.keymap.set("n", "<C-w>", ":resize +2<CR>", opts)
-vim.keymap.set("n", "<C-s>", ":resize -2<CR>", opts)
-vim.keymap.set("n", "<C-f>", ":vertical resize -2<CR>", opts)
-vim.keymap.set("n", "<C-a>", ":vertical resize +2<CR>", opts)
+vim.keymap.set("n", "<leader>+", ":resize +2<CR>", { desc = "Aumentar alto de ventana" })
+vim.keymap.set("n", "<leader>-", ":resize -2<CR>", { desc = "Reducir alto de ventana" })
+vim.keymap.set("n", "<leader><", ":vertical resize -2<CR>", { desc = "Reducir ancho de ventana" })
+vim.keymap.set("n", "<leader>>", ":vertical resize +2<CR>", { desc = "Aumentar ancho de ventana" })
 
 -- Files and buffers -----------------------------------------------------------
 vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Guardar archivo" })
@@ -68,14 +68,14 @@ vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 local function open_terminal(command)
 	vim.cmd("botright split")
 	vim.cmd("resize 15")
-	vim.cmd("terminal " .. (command or vim.o.shell))
+	vim.fn.termopen(command or vim.o.shell)
 	vim.cmd("startinsert")
 end
 
 local function open_terminal_tab(command)
 	vim.cmd("tabnew")
 	vim.bo.bufhidden = "wipe"
-	vim.cmd("terminal " .. (command or vim.o.shell))
+	vim.fn.termopen(command or vim.o.shell)
 	vim.api.nvim_create_autocmd("TermClose", {
 		buffer = 0,
 		once = true,
@@ -91,7 +91,7 @@ local function open_terminal_tab(command)
 end
 
 vim.keymap.set("n", "<leader><leader>l", function()
-	open_terminal_tab("lazygit")
+	open_terminal_tab({ "lazygit" })
 end, { desc = "Abrir LazyGit" })
 vim.keymap.set("n", "<leader>T", function()
 	open_terminal()

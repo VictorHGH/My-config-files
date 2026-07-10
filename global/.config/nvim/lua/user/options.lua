@@ -16,7 +16,7 @@ vim.opt.smartcase = true                        -- smart case
 vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
 vim.opt.splitright = true                       -- force all vertical splits to go to the right of current window
 vim.opt.swapfile = false                        -- creates a swapfile
--- vim.opt.termguicolors = true                 -- set term gui colors (most terminals support this)
+vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
 vim.opt.timeoutlen = 1000                       -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.undofile = true                         -- enable persistent undo
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
@@ -58,15 +58,16 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set iskeyword+=$]])
 
-local pipenv_venv_path = vim.fn.system("pipenv --venv")
-if vim.v.shell_error == 0 then
-	local venv_path = string.gsub(pipenv_venv_path, "\n", "")
-	vim.g.python3_host_prog = venv_path .. "/bin/python3"
-else
-	if vim.fn.executable("/opt/homebrew/bin/python3.11") == 1 then
-		vim.g.python3_host_prog = "/opt/homebrew/bin/python3.11"
-	else
-		vim.g.python3_host_prog = "/home/linuxbrew/.linuxbrew/bin/python3.11"
+local python_candidates = {
+	"/opt/homebrew/bin/python3.11",
+	"/home/linuxbrew/.linuxbrew/bin/python3.11",
+	vim.fn.exepath("python3"),
+}
+
+for _, python_path in ipairs(python_candidates) do
+	if python_path ~= "" and vim.fn.executable(python_path) == 1 then
+		vim.g.python3_host_prog = python_path
+		break
 	end
 end
 
