@@ -43,7 +43,8 @@ for ft, runner in pairs(runners) do
 					return
 				end
 
-				vim.cmd("vs")
+				vim.cmd("botright vnew")
+				vim.bo.bufhidden = "wipe"
 				vim.fn.termopen(runner(file))
 				vim.cmd("startinsert")
 			end, { buffer = true, desc = "Run current file in terminal" })

@@ -66,8 +66,8 @@ vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 local function open_terminal(command)
-	vim.cmd("botright split")
-	vim.cmd("resize 15")
+	vim.cmd("botright 15new")
+	vim.bo.bufhidden = "wipe"
 	vim.fn.termopen(command or vim.o.shell)
 	vim.cmd("startinsert")
 end
