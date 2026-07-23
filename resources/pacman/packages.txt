@@ -127,8 +127,7 @@ usbutils
 uwsm
 vim
 virtualbox
-virtualbox-host-modules-arch
-virtualbox-host-modules-lts
+virtualbox-host-dkms
 vulkan-intel
 vulkan-nouveau
 vulkan-radeon
