@@ -96,6 +96,9 @@ end, { desc = "Abrir LazyGit" })
 vim.keymap.set("n", "<leader>T", function()
 	open_terminal()
 end, { desc = "New terminal" })
+vim.keymap.set("n", "<leader><leader>T", function()
+	open_terminal_tab()
+end, { desc = "New terminal tab" })
 
 -- Spell -----------------------------------------------------------------------
 vim.keymap.set("n", "<leader><leader>o", ":set spell<CR>", { desc = "Activar spellcheck" })
