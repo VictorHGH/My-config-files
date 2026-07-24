@@ -69,6 +69,17 @@ local function open_terminal(command)
 	vim.cmd("botright 15new")
 	vim.bo.bufhidden = "wipe"
 	vim.fn.termopen(command or vim.o.shell)
+	vim.api.nvim_create_autocmd("TermClose", {
+		buffer = 0,
+		once = true,
+		callback = function(args)
+			vim.schedule(function()
+				for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+					vim.api.nvim_win_close(win, true)
+				end
+			end)
+		end,
+	})
 	vim.cmd("startinsert")
 end
 
