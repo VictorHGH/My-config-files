@@ -198,6 +198,8 @@ brew "msgpack"
 brew "ncurses"
 # Incremental parsing library
 brew "tree-sitter"
+# CLI for generating and compiling Tree-sitter parsers
+brew "tree-sitter-cli"
 # Very basic terminfo library
 brew "unibilium"
 # Clean C library for processing UTF-8 Unicode data
