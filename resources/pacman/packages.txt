@@ -16,6 +16,7 @@ docker
 docker-buildx
 docker-compose
 dolphin
+dosfstools
 dunst
 efibootmgr
 fastfetch
@@ -133,6 +134,7 @@ vulkan-nouveau
 vulkan-radeon
 warp-terminal
 wget
+wimlib
 wireguard-tools
 wireless_tools
 wireplumber
