@@ -24,6 +24,7 @@ flameshot
 font-manager
 freecad
 fuse-overlayfs
+fuse2
 fzf
 gdm
 genius
