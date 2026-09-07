@@ -68,7 +68,7 @@ vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 local function open_terminal(command)
 	vim.cmd("botright 15new")
 	vim.bo.bufhidden = "wipe"
-	vim.fn.termopen(command or vim.o.shell)
+	vim.fn.jobstart(command or vim.o.shell, { term = true })
 	vim.api.nvim_create_autocmd("TermClose", {
 		buffer = 0,
 		once = true,
@@ -86,7 +86,7 @@ end
 local function open_terminal_tab(command)
 	vim.cmd("tabnew")
 	vim.bo.bufhidden = "wipe"
-	vim.fn.termopen(command or vim.o.shell)
+	vim.fn.jobstart(command or vim.o.shell, { term = true })
 	vim.api.nvim_create_autocmd("TermClose", {
 		buffer = 0,
 		once = true,
