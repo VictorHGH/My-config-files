@@ -60,8 +60,8 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# Start the desktop-application launcher, including user-installed AppImages.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --entry-type=name
+# Start dmenu so every executable in PATH remains available.
+bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
