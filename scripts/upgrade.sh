@@ -8,6 +8,8 @@ DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
 
 PACMAN_LIST="$DOTFILES_DIR/resources/pacman/packages.txt"
 AUR_LIST="$DOTFILES_DIR/resources/aur/packages.txt"
+PACMAN_EXCLUDE="$DOTFILES_DIR/resources/pacman/exclude.txt"
+AUR_EXCLUDE="$DOTFILES_DIR/resources/aur/exclude.txt"
 BREWFILE_MAC="$DOTFILES_DIR/resources/homebrew/Brewfile"
 BREWFILE_LINUX="$DOTFILES_DIR/resources/homebrew/Brewfile-linux"
 
@@ -89,6 +91,16 @@ function run() {
 }
 
 function have() { command -v "$1" >/dev/null 2>&1; }
+
+function filter_excluded_packages() {
+  local exclude_file="$1"
+
+  if [[ -s "$exclude_file" ]]; then
+    grep -vxF -f "$exclude_file" || true
+  else
+    cat
+  fi
+}
 
 function init_privileged_pacman() {
   CAN_RUN_PRIVILEGED_PACMAN=1
@@ -444,11 +456,11 @@ function export_linux_state() {
   run mkdir -p "$DOTFILES_DIR/resources/pacman"
   run mkdir -p "$DOTFILES_DIR/resources/aur"
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    printf '+ pacman -Qqen | LC_ALL=C sort -u > %q\n' "$PACMAN_LIST"
-    printf '+ pacman -Qqem | LC_ALL=C sort -u > %q\n' "$AUR_LIST"
+    printf '+ pacman -Qqen | LC_ALL=C sort -u | filter exclusions > %q\n' "$PACMAN_LIST"
+    printf '+ pacman -Qqem | LC_ALL=C sort -u | filter exclusions > %q\n' "$AUR_LIST"
   else
-    pacman -Qqen | LC_ALL=C sort -u > "$PACMAN_LIST"
-    pacman -Qqem | LC_ALL=C sort -u > "$AUR_LIST"
+    pacman -Qqen | LC_ALL=C sort -u | filter_excluded_packages "$PACMAN_EXCLUDE" > "$PACMAN_LIST"
+    pacman -Qqem | LC_ALL=C sort -u | filter_excluded_packages "$AUR_EXCLUDE" > "$AUR_LIST"
   fi
 
   if have brew; then

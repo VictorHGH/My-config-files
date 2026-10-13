@@ -70,6 +70,7 @@ Para revisar la actualizacion sin ejecutar comandos:
 ```
 
 `upgrade.sh` guarda paquetes oficiales en `resources/pacman/packages.txt` y paquetes AUR en `resources/aur/packages.txt`.
+Las exclusiones de cada manifiesto se guardan en `resources/pacman/exclude.txt` y `resources/aur/exclude.txt`; usalas para paquetes instalados localmente que no deben replicarse.
 
 ## Revision antes de actualizar
 

@@ -9,11 +9,11 @@ chromium
 code
 cups
 cups-pk-helper
+dex
 dmenu
 docker
 docker-buildx
 docker-compose
-dex
 dolphin
 dosfstools
 dunst

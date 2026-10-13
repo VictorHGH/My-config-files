@@ -4,6 +4,8 @@ set -euo pipefail
 DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 PACMAN_FILE="$DOTFILES_DIR/resources/pacman/packages.txt"
 AUR_FILE="$DOTFILES_DIR/resources/aur/packages.txt"
+PACMAN_EXCLUDE="$DOTFILES_DIR/resources/pacman/exclude.txt"
+AUR_EXCLUDE="$DOTFILES_DIR/resources/aur/exclude.txt"
 OMZ_COMMIT_FILE="$DOTFILES_DIR/resources/oh-my-zsh/commit"
 failures=0
 
@@ -52,6 +54,27 @@ check_manifests() {
   [[ "$failures" -eq 0 ]] && pass "Pacman and AUR manifests"
 }
 
+check_exclusions() {
+  local list exclude_file pkg
+
+  for list in "$PACMAN_FILE" "$AUR_FILE"; do
+    if [[ "$list" == "$PACMAN_FILE" ]]; then
+      exclude_file="$PACMAN_EXCLUDE"
+    else
+      exclude_file="$AUR_EXCLUDE"
+    fi
+
+    while IFS= read -r pkg; do
+      [[ -z "$pkg" || "$pkg" == \#* ]] && continue
+      if grep -Fxq "$pkg" "$list"; then
+        fail "$pkg is excluded but still present in $list"
+      fi
+    done < "$exclude_file"
+  done
+
+  [[ "$failures" -eq 0 ]] && pass "manifest exclusions"
+}
+
 check_oh_my_zsh() {
   local pinned installed
 
@@ -95,6 +118,7 @@ check_i3_stow() {
 check_syntax
 check_git_diff
 check_manifests
+check_exclusions
 check_oh_my_zsh
 check_i3_stow
 

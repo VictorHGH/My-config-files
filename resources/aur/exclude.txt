@@ -1,0 +1,2 @@
+# yay is bootstrapped separately by scripts/bootstrap.sh.
+yay
