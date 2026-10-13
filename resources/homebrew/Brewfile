@@ -118,6 +118,7 @@ brew "tesseract"
 brew "ghostscript"
 # Distributed revision control system
 brew "git"
+brew "gh"
 # Command-line option parsing utility
 brew "gnu-getopt"
 # International domain name library (IDNA2008, Punycode and TR46)

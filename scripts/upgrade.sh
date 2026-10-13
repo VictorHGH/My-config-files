@@ -7,6 +7,7 @@ set -euo pipefail
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
 
 PACMAN_LIST="$DOTFILES_DIR/resources/pacman/packages.txt"
+AUR_LIST="$DOTFILES_DIR/resources/aur/packages.txt"
 BREWFILE_MAC="$DOTFILES_DIR/resources/homebrew/Brewfile"
 BREWFILE_LINUX="$DOTFILES_DIR/resources/homebrew/Brewfile-linux"
 
@@ -79,9 +80,11 @@ function print_help() {
 
 function run() {
   if [[ "$DRY_RUN" -eq 1 ]]; then
-    echo "+ $*"
+    printf '+ '
+    printf '%q ' "$@"
+    printf '\n'
   else
-    eval "$@"
+    "$@"
   fi
 }
 
@@ -194,19 +197,26 @@ function git_pull_dotfiles() {
     return
   fi
 
-  # Auto-stash if there are local changes (tracked, staged, or untracked)
-  run "cd '$DOTFILES_DIR' && \
-    had_changes=0; \
-    if [[ -n \"\$(git status --porcelain)\" ]]; then \
-      had_changes=1; \
-      echo 'Local changes detected: stashing before pull...'; \
-      git stash push -u -m 'auto-stash by sync script'; \
-    fi; \
-    git pull --rebase; \
-    if [[ \$had_changes -eq 1 ]]; then \
-      echo 'Restoring stashed changes...'; \
-      git stash pop || true; \
-    fi"
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '+ git -C %q pull --rebase\n' "$DOTFILES_DIR"
+    return
+  fi
+
+  local had_changes=0 pull_status=0
+  if [[ -n "$(git -C "$DOTFILES_DIR" status --porcelain)" ]]; then
+    had_changes=1
+    echo "Local changes detected: stashing before pull..."
+    git -C "$DOTFILES_DIR" stash push -u -m "auto-stash by sync script"
+  fi
+
+  git -C "$DOTFILES_DIR" pull --rebase || pull_status=$?
+
+  if [[ "$had_changes" -eq 1 ]]; then
+    echo "Restoring stashed changes..."
+    git -C "$DOTFILES_DIR" stash pop || true
+  fi
+
+  return "$pull_status"
 }
 
 # ----------------------------
@@ -215,7 +225,7 @@ function git_pull_dotfiles() {
 function upgrade_oh_my_zsh() {
   print_help "Oh My Zsh"
   if [[ -x "$HOME/.oh-my-zsh/tools/upgrade.sh" ]]; then
-    run "zsh '$HOME/.oh-my-zsh/tools/upgrade.sh'"
+    run zsh "$HOME/.oh-my-zsh/tools/upgrade.sh"
   else
     echo "Oh My Zsh upgrade script not found (skipping)"
   fi
@@ -224,10 +234,10 @@ function upgrade_oh_my_zsh() {
 function upgrade_brew() {
   print_help "Homebrew"
   if have brew; then
-    run "brew update"
-    run "brew upgrade"
-    run "brew cleanup"
-    run "brew autoremove || true"
+    run brew update
+    run brew upgrade
+    run brew cleanup
+    run brew autoremove || true
   else
     echo "brew not found (skipping)"
   fi
@@ -249,14 +259,14 @@ function fix_python_tabulate_link_conflict() {
 
   if [[ -e "$tabulate_bin" && ! -L "$tabulate_bin" ]]; then
     print_help "Fix python-tabulate link conflict"
-    run "brew link --overwrite python-tabulate"
+    run brew link --overwrite python-tabulate
   fi
 }
 
 function upgrade_npm_global() {
   print_help "npm (global)"
   if have npm; then
-    run "npm -g update || true"
+    run npm -g update || true
   else
     echo "npm not found (skipping)"
   fi
@@ -280,9 +290,9 @@ function upgrade_nvim() {
   )"
 
   if [[ "$has_custom" == "2" || "$has_custom" == "1" ]]; then
-    run "nvim --headless '+silent! UpgradeNvim' '+qa' || true"
+    run nvim --headless "+silent! UpgradeNvim" "+qa" || true
   else
-    run "nvim --headless '+silent! Lazy! sync' '+qa' || true"
+    run nvim --headless "+silent! Lazy! sync" "+qa" || true
   fi
 }
 
@@ -348,7 +358,7 @@ function pacman_strict_remove_extras() {
   protect_tmp="$(mktemp)"
 
   grep -vE '^\s*#|^\s*$' "$PACMAN_LIST" | sort -u > "$desired_tmp"
-  pacman -Qqe | sort -u > "$current_tmp"
+  pacman -Qqen | sort -u > "$current_tmp"
 
   comm -23 "$current_tmp" "$desired_tmp" > "$extras_tmp"
 
@@ -380,6 +390,15 @@ function pacman_upgrade() {
   run_pacman_privileged -Syu
 }
 
+function aur_upgrade() {
+  print_help "AUR upgrade"
+  if have yay; then
+    run yay -Sua
+  else
+    echo "yay not found (skipping AUR upgrade)"
+  fi
+}
+
 # ----------------------------
 # Brew bundle sync
 # ----------------------------
@@ -393,7 +412,7 @@ function brew_bundle_sync_mac() {
   fix_python_tabulate_link_conflict
 
   if [[ -f "$BREWFILE_MAC" ]]; then
-    run "brew bundle --file '$BREWFILE_MAC'"
+    run brew bundle --file "$BREWFILE_MAC"
   else
     echo "Brewfile not found: $BREWFILE_MAC (skipping)"
   fi
@@ -406,7 +425,7 @@ function brew_bundle_sync_linux() {
     return
   fi
   if [[ -f "$BREWFILE_LINUX" ]]; then
-    run "brew bundle --file '$BREWFILE_LINUX'"
+    run brew bundle --file "$BREWFILE_LINUX"
   else
     echo "Brewfile-linux not found: $BREWFILE_LINUX (skipping)"
   fi
@@ -421,12 +440,19 @@ function export_linux_state() {
     return
   fi
 
-  print_help "Export Linux package state"
-  run "mkdir -p '$DOTFILES_DIR/resources/pacman'"
-  run "pacman -Qqe | LC_ALL=C sort -u > '$PACMAN_LIST'"
+  print_help "Export Arch package state"
+  run mkdir -p "$DOTFILES_DIR/resources/pacman"
+  run mkdir -p "$DOTFILES_DIR/resources/aur"
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '+ pacman -Qqen | LC_ALL=C sort -u > %q\n' "$PACMAN_LIST"
+    printf '+ pacman -Qqem | LC_ALL=C sort -u > %q\n' "$AUR_LIST"
+  else
+    pacman -Qqen | LC_ALL=C sort -u > "$PACMAN_LIST"
+    pacman -Qqem | LC_ALL=C sort -u > "$AUR_LIST"
+  fi
 
   if have brew; then
-    run "mkdir -p '$DOTFILES_DIR/resources/homebrew'"
+    run mkdir -p "$DOTFILES_DIR/resources/homebrew"
     if [[ "$DRY_RUN" -eq 1 ]]; then
       echo "+ brew bundle dump --file '<tmp>' --force && normalize_brewfile_in_place '<tmp>' && mv '<tmp>' '$BREWFILE_LINUX'"
     else
@@ -450,8 +476,8 @@ function export_mac_state() {
 
   print_help "Export macOS package state"
   if have brew; then
-    run "mkdir -p '$DOTFILES_DIR/resources/homebrew'"
-    run "brew bundle dump --file '$BREWFILE_MAC' --force"
+    run mkdir -p "$DOTFILES_DIR/resources/homebrew"
+    run brew bundle dump --file "$BREWFILE_MAC" --force
     echo "Brewfile created/updated"
   else
     echo "brew not found (skipping Brewfile export)"
@@ -475,6 +501,7 @@ function linux_flow() {
   pacman_upgrade
   pacman_sync_install_missing
   pacman_strict_remove_extras
+  aur_upgrade
   brew_bundle_sync_linux
   upgrade_brew
   export_linux_state

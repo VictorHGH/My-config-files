@@ -1,4 +1,0 @@
-set $mod Mod1
-
-include ~/dotfiles/resources/i3/config.shared
-include ~/.config/i3/config.host.conf

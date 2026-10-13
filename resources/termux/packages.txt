@@ -1,4 +1,5 @@
 git
+gh
 stow
 zsh
 neovim

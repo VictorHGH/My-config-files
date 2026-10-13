@@ -30,6 +30,7 @@ function general_options() {
   # Change ZSH Options
   export EDITOR=nvim
   export VISUAL="$EDITOR"
+  export DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
   bindkey -v
   
   # Add Locations to $PATH Variables
@@ -43,11 +44,9 @@ function general_options() {
   alias vic='nvim .'
   alias conf='nvim ~/.zshrc'
   alias confn='nvim ~/.config/nvim'
-  alias upgrade='zsh ~/dotfiles/scripts/upgrade.sh'
-  alias dot='nvim ~/dotfiles/'
+  alias upgrade='zsh "$DOTFILES_DIR/scripts/upgrade.sh"'
+  alias dot='nvim "$DOTFILES_DIR"'
   alias lazy='lazygit'
-  alias PG='~/Documents/programacion'
-  alias spark='docker exec -w /var/www/html/ titulos_php php spark'
 
   if command -v xclip >/dev/null 2>&1; then
     alias copy='xclip -selection clipboard'
@@ -69,7 +68,6 @@ function mac_options() {
 
   # Oh-my-zsh
   export ZSH="$HOME/.oh-my-zsh"
-  source $ZSH/oh-my-zsh.sh
 
   # FMN
   eval "$(fnm env --use-on-cd)"
@@ -85,17 +83,8 @@ function mac_options() {
     zsh-vi-mode
     pass
   )
+  [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
-  ###################
-  ##### Aliases #####
-  ###################
-
-  # Maestria
-  alias MA='cd ~/Documents/Maestria/'
-  alias icr='cd ~/Documents/Maestria/Investigacion\ general/ICR/ICR/'
-
-  # Programacion
-  alias password='python3 $HOME/Documents/programacion/python/passwords/pass.py'
 }
 
 function linux_options() {
@@ -120,7 +109,6 @@ function linux_options() {
 
   # Oh-my-zsh
   export ZSH="$HOME/.oh-my-zsh"
-  source $ZSH/oh-my-zsh.sh
 
   plugins=(
     git
@@ -129,16 +117,14 @@ function linux_options() {
 	brew
 	node
 	vi-mode
-	zsh-interactive-cd
+    zsh-interactive-cd
   )
+  [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
   
-  # Aliases
-  alias icr='cd ~/Documents/programacion/maestria/ICR/'
 }
 
 function termux_options() {
   export ZSH="$HOME/.oh-my-zsh"
-  source $ZSH/oh-my-zsh.sh
 
   if command -v fnm >/dev/null 2>&1; then
     eval "$(fnm env --use-on-cd)"
@@ -148,6 +134,7 @@ function termux_options() {
     git
     vi-mode
   )
+  [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 }
 
 function setup_pipenv_completion() {
@@ -205,3 +192,4 @@ if [[ -d "$HOME/.opencode/bin" ]]; then
 fi
 
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

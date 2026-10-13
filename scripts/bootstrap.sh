@@ -9,9 +9,11 @@ INSTALL_BASE_TOOLS=1
 INSTALL_PACKAGES=1
 SET_ZSH_DEFAULT=1
 UPDATE_DOTFILES=1
-INSTALL_SYSTEM_FIXES=1
+INSTALL_SYSTEM_FIXES=0
+DRY_RUN=0
 
 PACMAN_FILE="resources/pacman/packages.txt"
+AUR_FILE="resources/aur/packages.txt"
 BREWFILE_MAC="resources/homebrew/Brewfile"
 TERMUX_FILE="resources/termux/packages.txt"
 EARLY_KBD_SCRIPT_FILE="scripts/ensure-early-kbd.sh"
@@ -25,21 +27,22 @@ usage() {
 Usage: bootstrap.sh [options]
 
 Options:
-  --profile <name>     Profile: auto|arch-desktop|arch-macbook|work-pc|mac-mini|termux
+  --profile <name>     Profile: auto|arch|mac-mini|termux
   --repo <url>         Dotfiles repo URL (default: VictorHGH/My-config-files)
   --dir <path>         Dotfiles target directory (default: ~/dotfiles)
   --no-base-tools      Skip base tool installation step
   --no-packages        Skip package manifest installation
-  --no-system-fixes    Skip Arch-specific system fixes (mkinitcpio/pacman/audio)
+  --system-fixes       Apply Arch-specific LUKS keyboard and audio fixes
   --no-shell           Skip setting zsh as default shell
   --no-update          Do not git pull if dotfiles dir already exists
+  --dry-run            Show the actions without changing the system
   -h, --help           Show this help
 
 Examples:
-  ./scripts/bootstrap.sh --profile arch-desktop
-  ./scripts/bootstrap.sh --profile arch-macbook
+  ./scripts/bootstrap.sh --profile arch
   ./scripts/bootstrap.sh --profile mac-mini
   ./scripts/bootstrap.sh --profile termux
+  ./scripts/bootstrap.sh --profile arch --dry-run
 EOF
 }
 
@@ -83,6 +86,10 @@ parse_args() {
         INSTALL_SYSTEM_FIXES=0
         shift
         ;;
+      --system-fixes)
+        INSTALL_SYSTEM_FIXES=1
+        shift
+        ;;
       --no-base-tools)
         INSTALL_BASE_TOOLS=0
         shift
@@ -93,6 +100,10 @@ parse_args() {
         ;;
       --no-update)
         UPDATE_DOTFILES=0
+        shift
+        ;;
+      --dry-run)
+        DRY_RUN=1
         shift
         ;;
       -h|--help)
@@ -130,7 +141,7 @@ normalize_profile() {
 
   if [[ "$PROFILE" == "auto" ]]; then
     case "$platform" in
-      arch) PROFILE="arch-desktop" ;;
+      arch) PROFILE="arch" ;;
       macos) PROFILE="mac-mini" ;;
       termux) PROFILE="termux" ;;
       *) die "Cannot auto-detect profile for platform '$platform'. Use --profile." ;;
@@ -138,16 +149,13 @@ normalize_profile() {
   fi
 
   case "$PROFILE" in
-    arch-desktop|work-pc)
+    arch)
       STOW_MODULES=(global arch)
       ;;
-    arch-macbook|macbook-pro)
-      STOW_MODULES=(global macbook_pro)
-      ;;
-    mac-mini|macos)
+    mac-mini)
       STOW_MODULES=(global mac_mini)
       ;;
-    termux|redmi-a5)
+    termux)
       STOW_MODULES=(global)
       ;;
     *)
@@ -158,6 +166,16 @@ normalize_profile() {
 
 install_base_tools() {
   local platform="$1"
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    case "$platform" in
+      arch) log "Would run: sudo pacman -S --needed git stow zsh" ;;
+      macos) log "Would run: brew install git stow zsh" ;;
+      termux) log "Would run: pkg update -y && pkg install -y git stow zsh curl" ;;
+      *) warn "No base tool installation is defined for $platform" ;;
+    esac
+    return
+  fi
 
   case "$platform" in
     arch)
@@ -189,6 +207,17 @@ install_base_tools() {
 }
 
 clone_or_update_dotfiles() {
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    if [[ -d "$DOTFILES_DIR/.git" && "$UPDATE_DOTFILES" -eq 1 ]]; then
+      log "Would run: git -C $DOTFILES_DIR pull --rebase"
+    elif [[ ! -d "$DOTFILES_DIR" ]]; then
+      log "Would run: git clone $DOTFILES_REPO $DOTFILES_DIR"
+    else
+      log "Would use existing dotfiles directory: $DOTFILES_DIR"
+    fi
+    return
+  fi
+
   if [[ -d "$DOTFILES_DIR/.git" ]]; then
     if [[ "$UPDATE_DOTFILES" -eq 1 ]]; then
       log "Updating existing dotfiles repo"
@@ -208,8 +237,13 @@ clone_or_update_dotfiles() {
 }
 
 run_stow() {
-  local host_modules=(arch macbook_pro mac_mini)
+  local host_modules=(arch mac_mini)
   local mod selected
+
+  if [[ ! -d "$DOTFILES_DIR" ]]; then
+    warn "Dotfiles directory does not exist; cannot preview Stow"
+    return
+  fi
 
   log "Cleaning conflicting host modules"
   (
@@ -223,7 +257,11 @@ run_stow() {
         fi
       done
       if [[ "$selected" -eq 0 && -d "$mod" ]]; then
-        stow -D "$mod" >/dev/null 2>&1 || true
+        if [[ "$DRY_RUN" -eq 1 ]]; then
+          stow -n -D "$mod" >/dev/null 2>&1 || true
+        else
+          stow -D "$mod" >/dev/null 2>&1 || true
+        fi
       fi
     done
   )
@@ -231,7 +269,11 @@ run_stow() {
   log "Applying stow modules: ${STOW_MODULES[*]}"
   (
     cd "$DOTFILES_DIR"
-    stow -R "${STOW_MODULES[@]}"
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      stow -n -R "${STOW_MODULES[@]}"
+    else
+      stow -R "${STOW_MODULES[@]}"
+    fi
   )
 }
 
@@ -243,6 +285,15 @@ install_manifests() {
     return
   fi
 
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    case "$platform" in
+      arch) log "Would install $PACMAN_FILE and $AUR_FILE" ;;
+      macos) log "Would run: brew bundle --file $BREWFILE_MAC" ;;
+      termux) log "Would install $TERMUX_FILE" ;;
+    esac
+    return
+  fi
+
   case "$platform" in
     arch)
       if [[ -f "$DOTFILES_DIR/$PACMAN_FILE" ]]; then
@@ -250,6 +301,10 @@ install_manifests() {
         sudo pacman -S --needed - < "$DOTFILES_DIR/$PACMAN_FILE"
       else
         warn "Missing $PACMAN_FILE"
+      fi
+
+      if [[ -f "$DOTFILES_DIR/$AUR_FILE" ]]; then
+        install_aur_packages
       fi
       ;;
     macos)
@@ -276,6 +331,27 @@ install_manifests() {
   esac
 }
 
+install_aur_packages() {
+  local yay_dir
+
+  if ! have yay; then
+    log "Installing yay"
+    sudo pacman -S --needed base-devel
+    yay_dir="$(mktemp -d)"
+    trap 'rm -rf "$yay_dir"' RETURN
+    git clone https://aur.archlinux.org/yay.git "$yay_dir/yay"
+    (
+      cd "$yay_dir/yay"
+      makepkg -si --noconfirm
+    )
+    trap - RETURN
+    rm -rf "$yay_dir"
+  fi
+
+  log "Installing AUR packages from $AUR_FILE"
+  yay -S --needed - < "$DOTFILES_DIR/$AUR_FILE"
+}
+
 install_arch_system_fixes() {
   local platform="$1"
 
@@ -285,6 +361,11 @@ install_arch_system_fixes() {
 
   if [[ "$INSTALL_SYSTEM_FIXES" -ne 1 ]]; then
     log "Skipping Arch system fixes"
+    return
+  fi
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    log "Would install the Arch LUKS keyboard and audio fixes"
     return
   fi
 
@@ -362,40 +443,12 @@ install_arch_system_fixes() {
 }
 
 install_oh_my_zsh() {
-  local installer_url="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
-
   if [[ -s "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]]; then
     log "Oh My Zsh already installed"
     return
   fi
 
-  if ! have zsh; then
-    warn "zsh is required before installing Oh My Zsh"
-    return
-  fi
-
-  if ! have git; then
-    warn "git is required before installing Oh My Zsh"
-    return
-  fi
-
-  log "Installing Oh My Zsh"
-
-  if have curl; then
-    if ! RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL "$installer_url")"; then
-      warn "Oh My Zsh installation failed"
-    fi
-    return
-  fi
-
-  if have wget; then
-    if ! RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(wget -qO- "$installer_url")"; then
-      warn "Oh My Zsh installation failed"
-    fi
-    return
-  fi
-
-  warn "Neither curl nor wget found; cannot install Oh My Zsh automatically"
+  warn "Oh My Zsh is not installed; install and review it manually before using its plugins"
 }
 
 set_zsh_default() {
@@ -403,6 +456,11 @@ set_zsh_default() {
 
   if [[ "$SET_ZSH_DEFAULT" -ne 1 ]]; then
     log "Skipping default shell setup"
+    return
+  fi
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    log "Would set zsh as the default shell"
     return
   fi
 

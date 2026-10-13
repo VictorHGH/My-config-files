@@ -1,93 +1,88 @@
 # Dotfiles
 
-Configuracion personal de entorno de desarrollo gestionada con GNU Stow.
+Configuracion personal gestionada con GNU Stow.
 
-## Contenido del repositorio
+## Perfiles
 
-- `global/`: configuraciones compartidas (zsh, git, neovim).
-- `arch/`: ajustes de host para Arch desktop (modkey y overrides de i3).
-- `macbook_pro/`: ajustes de host para Arch en MacBook (teclas multimedia, brillo, etc.).
-- `mac_mini/`: ajustes de host para macOS en Mac mini (overrides de kitty).
-- `resources/`: manifiestos de paquetes (Homebrew/Pacman/Termux).
-- `scripts/`: utilidades de mantenimiento y automatizacion.
+- `arch`: escritorio Arch con i3.
+- `mac-mini`: macOS con ajustes de Kitty.
+- `termux`: configuracion global para Termux.
 
-## Requisitos
-
-- `git`, `stow`, `zsh`, `neovim`
-- Homebrew o Pacman segun sistema
-
-## Instalacion rapida
-
-1. Ejecuta bootstrap segun perfil:
+## Instalar en un equipo nuevo
 
 ```bash
-./scripts/bootstrap.sh --profile arch-desktop
+git clone git@github.com:VictorHGH/My-config-files.git ~/dotfiles
+cd ~/dotfiles
+./scripts/bootstrap.sh --profile arch
 ```
 
-Perfiles soportados:
+Cambia `arch` por `mac-mini` o `termux` segun el equipo. Sin perfil, el script detecta la plataforma.
 
-- `arch-desktop` / `work-pc`
-- `arch-macbook` / `macbook-pro`
-- `mac-mini`
-- `termux` / `redmi-a5`
-
-2. Si prefieres manual, desde `~/dotfiles` aplica modulos con `stow`:
+Oh My Zsh no se instala automaticamente. Si lo usas, clonalo en la revision fijada y revisala manualmente antes de ejecutar el bootstrap:
 
 ```bash
-stow global
+git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+git -C ~/.oh-my-zsh checkout --detach "$(< ~/dotfiles/resources/oh-my-zsh/commit)"
 ```
 
-En Arch desktop:
+Para aplicar la configuracion manualmente:
 
 ```bash
-stow arch global
+stow global arch      # Arch
+stow global mac_mini  # Mac mini
+stow global           # Termux
 ```
 
-En Arch MacBook:
+## Arch
+
+El perfil instala los paquetes oficiales de `resources/pacman/packages.txt`, prepara `yay` e instala los paquetes AUR de `resources/aur/packages.txt`. Tambien aplica `global` y `arch`. Los fixes de teclado temprano para LUKS y audio son opcionales con `--system-fixes`.
 
 ```bash
-stow macbook_pro global
+./scripts/bootstrap.sh --profile arch --system-fixes
 ```
 
-En Mac mini:
+La configuracion de i3 esta en `arch/.config/i3/config.shared`, con los ajustes del escritorio en `arch/.config/i3/config.host.conf`.
+
+## Mantenimiento
+
+- `scripts/bootstrap.sh`: instala paquetes y aplica el perfil.
+- `scripts/upgrade.sh`: actualiza paquetes oficiales con Pacman y AUR con `yay`; exporta ambos manifiestos por separado.
+- `scripts/audit.sh`: valida scripts, manifiestos, Stow, i3 y la revision de Oh My Zsh.
+- `scripts/ensure-early-kbd.sh`: corrige el teclado temprano para LUKS en Arch.
+- `scripts/treecat.py`: exporta arboles y contenido de directorios.
+
+Las rutas y aliases personales deben ir en `~/.zshrc.local`, que no se versiona. Por ejemplo:
 
 ```bash
-stow global mac_mini
+alias PG='cd ~/Documents/programacion'
 ```
 
-3. Reinicia shell para cargar configuraciones.
+Prueba el bootstrap sin cambios de sistema con:
 
-## Manifiestos de paquetes
+```bash
+./scripts/bootstrap.sh --profile arch --dry-run
+```
 
-- Homebrew macOS: `resources/homebrew/Brewfile`
-- Homebrew Linux: `resources/homebrew/Brewfile-linux`
-- Pacman: `resources/pacman/packages.txt`
-- Termux: `resources/termux/packages.txt`
+Para revisar la actualizacion sin ejecutar comandos:
 
-## Scripts utiles
+```bash
+./scripts/upgrade.sh --dry-run
+```
 
-- `scripts/bootstrap.sh`: prepara maquina nueva por perfil (paquetes, stow, instala Oh My Zsh si falta y zsh por defecto).
-- En perfil Arch, `bootstrap.sh` instala el fix de teclado temprano para LUKS (`/usr/local/sbin/ensure-early-kbd`), el hook `95-early-kbd.hook` y el fix de audio jack (`/etc/modprobe.d/99-snd-hda-intel.conf`).
-- Modo prueba seguro: `./scripts/bootstrap.sh --profile arch-desktop --no-base-tools --no-packages --no-shell --no-update`
-- `scripts/ensure-early-kbd.sh`: asegura modulos USB/HID en `mkinitcpio.conf` y reconstruye initramfs cuando hace falta.
-- `scripts/upgrade.sh`: actualiza herramientas principales y manifiestos.
-- `scripts/treecat.py`: exporta arboles y contenido de carpetas.
+`upgrade.sh` guarda paquetes oficiales en `resources/pacman/packages.txt` y paquetes AUR en `resources/aur/packages.txt`.
 
-## i3 sin duplicacion
+## Revision antes de actualizar
 
-- Config comun: `resources/i3/config.shared`
-- Host Arch desktop: `arch/.config/i3/config.host.conf`
-- Host Arch MacBook: `macbook_pro/.config/i3/config.host.conf`
+Ejecuta la auditoria y revisa los cambios propuestos:
 
-## Agregar nuevo perfil o sistema
+```bash
+./scripts/audit.sh
+./scripts/upgrade.sh --dry-run
+```
 
-1. Crea carpeta de host (ejemplo: `work_laptop/.config/i3/`) con `config` y `config.host.conf`.
-2. Agrega el perfil al `case` en `scripts/bootstrap.sh` y define sus modulos de stow.
-3. Si requiere paquetes nuevos, agrega manifiesto en `resources/` y enlazalo en `bootstrap.sh`.
-4. Documenta el perfil en este README (seccion de perfiles soportados).
+Antes de aceptar actualizaciones AUR, revisa sus cambios con `yay` y confirma que siguen siendo paquetes necesarios. Para actualizar Oh My Zsh, revisa los commits nuevos, actualiza `resources/oh-my-zsh/commit` solo si los aceptas y vuelve a ejecutar la auditoria:
 
-## Buenas practicas
-
-- Revisa `.stow-local-ignore` antes de stow para no enlazar carpetas no deseadas.
-- Valida scripts y manifests antes de ejecutarlos en equipos nuevos.
-- Mantener datos sensibles fuera de los dotfiles versionados.
+```bash
+git -C ~/.oh-my-zsh fetch --tags origin
+git -C ~/.oh-my-zsh log --oneline "$(< ~/dotfiles/resources/oh-my-zsh/commit)..origin/master"
+```
