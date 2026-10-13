@@ -1,3 +1,0 @@
-# Hardware packages kept on this machine but not replicated.
-broadcom-wl-dkms
-linux-apfs-rw-dkms

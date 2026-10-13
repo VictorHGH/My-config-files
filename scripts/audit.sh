@@ -64,6 +64,8 @@ check_exclusions() {
       exclude_file="$AUR_EXCLUDE"
     fi
 
+    [[ -s "$exclude_file" ]] || continue
+
     while IFS= read -r pkg; do
       [[ -z "$pkg" || "$pkg" == \#* ]] && continue
       if grep -Fxq "$pkg" "$list"; then
