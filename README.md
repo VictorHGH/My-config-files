@@ -46,7 +46,7 @@ La configuracion de i3 esta en `arch/.config/i3/config.shared`, con los ajustes 
 ## Mantenimiento
 
 - `scripts/bootstrap.sh`: instala paquetes y aplica el perfil.
-- `scripts/upgrade.sh`: actualiza paquetes oficiales con Pacman y AUR con `yay`; exporta ambos manifiestos por separado.
+- `scripts/upgrade.sh`: actualiza paquetes oficiales con Pacman y los paquetes listados en `resources/aur/packages.txt` con `yay`; exporta ambos manifiestos por separado.
 - `scripts/audit.sh`: valida scripts, manifiestos, Stow, i3 y la revision de Oh My Zsh.
 - `scripts/ensure-early-kbd.sh`: corrige el teclado temprano para LUKS en Arch.
 - `scripts/treecat.py`: exporta arboles y contenido de directorios.

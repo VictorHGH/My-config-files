@@ -404,10 +404,19 @@ function pacman_upgrade() {
 
 function aur_upgrade() {
   print_help "AUR upgrade"
-  if have yay; then
-    run yay -Sua
-  else
+  if ! have yay; then
     echo "yay not found (skipping AUR upgrade)"
+    return
+  fi
+  if [[ ! -s "$AUR_LIST" ]]; then
+    echo "No AUR package list found (skipping AUR upgrade)"
+    return
+  fi
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    printf '+ yay -S --needed - < %q\n' "$AUR_LIST"
+  else
+    yay -S --needed - < "$AUR_LIST"
   fi
 }
 
